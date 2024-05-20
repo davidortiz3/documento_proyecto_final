@@ -4,7 +4,8 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
-
+#include <cmath>
+#include <QElapsedTimer>
 #define time_step 1
 #define system_scale 200
 
@@ -20,18 +21,25 @@ public:
     void start_MRU();
     void set_vx();
     void right();
+    void startCircularMovement();
+    void stopCircularMovement();
+    void start_oscillation();
 private:
     void set_pos_item();
     QGraphicsPixmapItem *item;
-    QTimer *p_time, *default_movement;
-    float z, l, vx, vy, ax, ay, g, x0, y0, vx0, vy0, n;
+    QElapsedTimer time;
+    QTimer *p_time, *default_movement, *timer, *timer_osc;
+    float z, l, vx, vy, ax, ay, g, x0, y0, vx0, vy0, n,r;
     int h;
     bool verificar();
+    qreal angle,phase, radius,centerX,centerY,amplitude,frequency, startY = 100;
+
 private slots:
     void parabolic_shoot();
     void MRU();
     void set_starting_parameters(int x, int y, int vx, int vy);
-
+    void MCU();
+    void oscillatory_movement();
 };
 
 #endif // FISICAS_H

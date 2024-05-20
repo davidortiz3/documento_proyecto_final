@@ -31,7 +31,7 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
     } else if(keys->key() == Qt::Key_S) {
         bola1->setPos(bola1->x(), bola1->y() + 7);
     } else if(keys->key() == Qt::Key_Space) {
-        bola1->start_MRU();
+        bola1->start_oscillation();
     }
 }
 
