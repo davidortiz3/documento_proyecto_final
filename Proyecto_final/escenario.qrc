@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/calle">
+        <file>escenario/calle.png</file>
+    </qresource>
+</RCC>

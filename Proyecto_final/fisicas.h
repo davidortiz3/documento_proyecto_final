@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <cmath>
 #include <QElapsedTimer>
+#include <QKeyEvent>
 #define time_step 1
 #define system_scale 200
 
@@ -18,6 +19,7 @@ public:
     int get_x();
     int get_y();
     void start_parabolic_movement();
+    void set_starting_parameters_MCU(int z, int l);
     void start_MRU();
     void set_vx();
     void right();
@@ -30,6 +32,7 @@ private:
     QElapsedTimer time;
     QTimer *p_time, *default_movement, *timer, *timer_osc;
     float z, l, vx, vy, ax, ay, g, x0, y0, vx0, vy0, n,r;
+    double g1=200*9.8, theta0=0.0, A=200.0;
     int h;
     bool verificar();
     qreal angle,phase, radius,centerX,centerY,amplitude,frequency, startY = 100;

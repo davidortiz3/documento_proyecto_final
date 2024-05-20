@@ -5,7 +5,7 @@ clase_base::clase_base(QGraphicsView *graph) {
     scene = new QGraphicsScene;
     scene->setSceneRect(0,0,graph->width()-2,graph->height()-2);
     graph->setScene(scene);
-    bola1 = new personaje(0,400,graph->height());
+    bola1 = new personaje(0,100,graph->height());
     //movimiento();
     //bola1->keys(mover);
     scene->addItem(bola1);
@@ -23,11 +23,11 @@ clase_base::~clase_base()
 void clase_base::keyPressEvent(QKeyEvent *keys)
 {
     if(keys->key() == Qt::Key_A) {
-        bola1->setPos(bola1->x() - 7, bola1->y());
+        bola1->startCircularMovement();
     } else if(keys->key() == Qt::Key_D) {
-        bola1->right();
+        bola1->start_parabolic_movement();
     } else if(keys->key() == Qt::Key_W) {
-        bola1->setPos(bola1->x(), bola1->y() - 7);
+        bola1->right();
     } else if(keys->key() == Qt::Key_S) {
         bola1->setPos(bola1->x(), bola1->y() + 7);
     } else if(keys->key() == Qt::Key_Space) {

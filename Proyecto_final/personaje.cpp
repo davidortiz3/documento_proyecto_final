@@ -1,7 +1,7 @@
 #include "personaje.h"
 
 personaje::personaje(int z, int l, int h) : fisicas( z,l,h, this){
-    QPixmap img(":/pngwing.com (5).png");
+    QPixmap img(":/carro/pngwing.com (5).png");
     setPixmap(img.scaled(img.width()/100,img.height()/100));
     this->z=z;
     this->l=l;

@@ -36,13 +36,23 @@ void fisicas::start_parabolic_movement()
 {
 
     default_movement->stop();
-    set_starting_parameters(z,l,0,-800);
+    timer->stop();
+    timer_osc->stop();
+    set_starting_parameters(z,h-l,400,-100);
     p_time->start(time_step);
+}
+
+void fisicas::set_starting_parameters_MCU(int z, int l)
+{
+    centerX = z;
+    centerY = l;
 }
 
 void fisicas::start_MRU()
 {
     default_movement->stop();
+    stopCircularMovement();
+    timer_osc->stop();
     set_starting_parameters(z,l,0,-800);
     p_time->start(time_step);
 }
@@ -55,11 +65,16 @@ void fisicas::set_vx()
 
 void fisicas::right()
 {
+    default_movement->stop();
     item->setPos(item->x()+10, item->y());
 }
 
 void fisicas::startCircularMovement()
 {
+    set_starting_parameters_MCU(z,l);
+    default_movement->stop();
+    timer_osc->stop();
+    p_time->stop();
     timer->start(16);
 }
 
@@ -70,6 +85,7 @@ void fisicas::stopCircularMovement()
 
 void fisicas::start_oscillation()
 {
+
     timer_osc->start(16);
 }
 
@@ -80,16 +96,6 @@ void fisicas::set_pos_item()
     item->setY(h-l);
 }
 
-/*bool fisicas::verificar()
-{
-    bool salto;
-    if(l-90 <=0){
-        salto=true;
-    }else{
-        salto=false;
-    }
-    return salto;
-}*/
 
 void fisicas::parabolic_shoot()
 {
@@ -102,13 +108,10 @@ void fisicas::parabolic_shoot()
         n++;
         set_pos_item();
 
-    /*if(l-90 <=0) {
-        set_starting_parameters(z,l,vx,100);
-        p_time->stop();
-        default_movement->start(time_step);
-        p_time->stop();
-        default_movement->stop();
-    }*/
+    if(l-90 <=0) {
+        set_starting_parameters_MCU(z,l);
+        startCircularMovement();
+    }
 }
 
 void fisicas::MRU()
@@ -131,18 +134,21 @@ void fisicas::set_starting_parameters(int z, int l, int vx, int vy)
 
 void fisicas::MCU()
 {
-    angle += 0.05; // Increment angle
+    angle += 0.05;
     if (angle >= 2 * M_PI) {
-        angle = 0; // Reset angle to keep it within 0 to 2*PI
+        angle = 0;
     }
+
     z = centerX + radius * std::cos(angle);
     l = centerY + radius * std::sin(angle);
     set_pos_item();
+
+
 }
 
 void fisicas::oscillatory_movement()
 {
-    float t = time.elapsed() / 1000.0; // Tiempo en segundos
+    float t = time.elapsed() / 1000.0;
     z = amplitude * std::cos(2 * M_PI * frequency * t + phase);
     l = startY + amplitude * sin(2 * M_PI * frequency * t);
     set_pos_item();
