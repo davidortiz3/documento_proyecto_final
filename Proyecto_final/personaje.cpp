@@ -3,7 +3,7 @@
 personaje::personaje(int z, int l, int h) : fisicas( z,l,h, this){
     this->z=z;
     this->l=l;
-    pixmap_management = new sprites(":/trump/personaje/SeekPng.com_sprite-sheet-png_2302939.png",2);
+    pixmap_management = new sprites("qrc:/new/prefix1/personaje/correr_derecha.png",2);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(personaje_x_size,  personaje_y_size);
 

@@ -1,24 +1,27 @@
 #ifndef SPRITES_H
 #define SPRITES_H
 
-#include <QRect>
 #include <QPixmap>
 #include <QVector>
+#include <QTimer>
+#include <QGraphicsPixmapItem>
 
-class sprites
-{
+class Sprites : public QObject {
+    Q_OBJECT
 public:
-    sprites(QString main_pixmap, unsigned int scale);
-    void set_design_size(unsigned int x, unsigned int y);
-    void cut_character_pixmap(QRect size);
-    void add_new_animation(QRect size, unsigned int number);
-    QPixmap get_current_pixmap(unsigned int animation);
+    Sprites(QString mainPixmapPath, int frameWidth, int frameHeight, QObject *parent = nullptr);
+
+    void addFrame(QRect frameRect);
+    QPixmap getCurrentFrame();
+
+public slots:
+    void advanceFrame();
 
 private:
-    QPixmap *main_pixmap, *character_pixmap;
-    QVector<QRect> animations;
-    QVector<unsigned int> animations_size;
-    unsigned int width, height, animation_counter, scale;
+    QPixmap mainPixmap;
+    QVector<QPixmap> frames;
+    int currentFrame;
+    QTimer *timer;
 };
 
 #endif // SPRITES_H

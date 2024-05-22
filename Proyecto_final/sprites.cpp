@@ -1,36 +1,29 @@
 #include "sprites.h"
 
-sprites::sprites(QString main_pixmap, unsigned int scale)
-{
-    this->main_pixmap = new QPixmap;
-    character_pixmap = new QPixmap;
-    this->main_pixmap->load(main_pixmap);
-    animation_counter = 0;
-    this->scale = scale;
+Sprites::Sprites(QString mainPixmapPath, int frameWidth, int frameHeight, QObject *parent)
+    : QObject(parent), currentFrame(0) {
+    mainPixmap.load(mainPixmapPath);
+
+    // Assuming the image is a grid of frames
+    for (int y = 0; y < mainPixmap.height(); y += frameHeight) {
+        for (int x = 0; x < mainPixmap.width(); x += frameWidth) {
+            addFrame(QRect(x, y, frameWidth, frameHeight));
+        }
+    }
+
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &Sprites::advanceFrame);
+    timer->start(100); // Change frame every 100 ms
 }
 
-void sprites::set_design_size(unsigned int x, unsigned int y)
-{
-    height = y;
-    width = x;
+void Sprites::addFrame(QRect frameRect) {
+    frames.push_back(mainPixmap.copy(frameRect));
 }
 
-void sprites::cut_character_pixmap(QRect size)
-{
-    *character_pixmap = main_pixmap->copy(size);
+QPixmap Sprites::getCurrentFrame() {
+    return frames[currentFrame];
 }
 
-void sprites::add_new_animation(QRect size,unsigned int number)
-{
-    animations.push_back(size);
-    animations_size.push_back(number);
+void Sprites::advanceFrame() {
+    currentFrame = (currentFrame + 1) % frames.size();
 }
-
-QPixmap sprites::get_current_pixmap(unsigned int animation)
-{
-    animation_counter++;
-    if(animation_counter>=animations_size[animation]) animation_counter = 0;
-
-    return character_pixmap->copy(animations[animation]).copy(animation_counter*width,0,width,height).scaled(width*scale,height*scale);
-}
-

@@ -35,5 +35,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     escenario.qrc \
-    personaje/personaje.qrc \
-    sprite.qrc
+    imagen.qrc

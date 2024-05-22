@@ -6,8 +6,8 @@
 #include "fisicas.h"
 #include "sprites.h"
 #include "escenario.h"
-#define personaje_x_size 100
-#define personaje_y_size 100
+#define personaje_x_size 232
+#define personaje_y_size 463
 #define speed 4
 class personaje :public QGraphicsPixmapItem,  public fisicas
 {
