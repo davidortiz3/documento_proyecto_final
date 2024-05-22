@@ -4,7 +4,11 @@
 #include <QGraphicsPixmapItem>
 #include <QKeyEvent>
 #include "fisicas.h"
-
+#include "sprites.h"
+#include "escenario.h"
+#define personaje_x_size 100
+#define personaje_y_size 100
+#define speed 4
 class personaje :public QGraphicsPixmapItem,  public fisicas
 {
 public:
@@ -13,12 +17,26 @@ public:
     void mover_izquierda();
     void saltar();
     void agachar();
-    //void mover(unsigned int n);
+    void colision();
+    bool debug();
+    void set_animations();
+    void set_left_animation();
+    void mover(unsigned int n, bool is_valid);
+    void set_death_animation();
+    void set_keys(unsigned int *keys);
+    QRect set_complete_sprites();
     //void keys(unsigned int *j);
-
+    void set_up_animation();
+    void set_down_animation();
+    bool colisiones;
+    void set_right_animation();
+    ~personaje();
 private:
    //unsigned int j[5];
     int z, l, velocidad=12;
+    sprites *pixmap_management;
+    unsigned int keys[4];
+
 };
 
 #endif // PERSONAJE_H

@@ -10,15 +10,19 @@ CONFIG += c++17
 
 SOURCES += \
     clase_base.cpp \
+    escenario.cpp \
     fisicas.cpp \
     main.cpp \
     personaje.cpp \
+    sprites.cpp \
     ventana.cpp
 
 HEADERS += \
     clase_base.h \
+    escenario.h \
     fisicas.h \
     personaje.h \
+    sprites.h \
     ventana.h
 
 FORMS += \
@@ -31,4 +35,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     escenario.qrc \
-    personaje/personaje.qrc
+    personaje/personaje.qrc \
+    sprite.qrc
