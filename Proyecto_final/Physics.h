@@ -26,8 +26,7 @@ public:
         posX += velocity * time;
     }
     void applySimpleHarmonicMotion(float& posX, float amplitude, float frequency, float time){
-        posX = amplitude * cos(2*M_PI*frequency*time)
+        posX = amplitude * cos(2*M_PI*frequency*time);
     }
 };
-
 #endif // PHYSICS_H
