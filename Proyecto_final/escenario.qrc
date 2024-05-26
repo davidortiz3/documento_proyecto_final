@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/escenario">
+        <file>escenario/melody-c-alvarez-m-2-gif.gif</file>
+    </qresource>
+</RCC>

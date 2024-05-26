@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/nivel1">
+        <file>escenario/nivel1.jpg</file>
+    </qresource>
+</RCC>

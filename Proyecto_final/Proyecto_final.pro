@@ -1,5 +1,4 @@
-QT       += core gui \
-    quick
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,19 +9,31 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    enemies.cpp \
+    clase_base.cpp \
+    escenario.cpp \
+    fisicas.cpp \
     main.cpp \
-    mainwindow.cpp
+    personaje.cpp \
+    sprites.cpp \
+    ventana.cpp
 
 HEADERS += \
-    Physics.h \
-    enemies.h \
-    mainwindow.h
+    clase_base.h \
+    escenario.h \
+    fisicas.h \
+    personaje.h \
+    sprites.h \
+    ventana.h
 
 FORMS += \
-    mainwindow.ui
+    ventana.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    nivel1.qrc \
+    nivel1.qrc \
+    soldado.qrc
