@@ -1,0 +1,16 @@
+debug/clase_base.o
+debug/escenario.o
+debug/fisicas.o
+debug/main.o
+debug/obstaculo.o
+debug/personaje.o
+debug/proyectil.o
+debug/sprites.o
+debug/ventana.o
+debug/qrc_balas.o
+debug/qrc_nivel1.o
+debug/qrc_obstaculo1.o
+debug/qrc_soldado.o
+debug/moc_clase_base.o
+debug/moc_fisicas.o
+debug/moc_ventana.o
