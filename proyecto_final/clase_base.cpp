@@ -51,15 +51,7 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
 }
 
 
-void clase_base::cargar_escena()
-{
-    graph->setGeometry(0,0,200,200);
 
-    scene = new QGraphicsScene;
-    scene->setSceneRect(0,0,graph->width()-2, graph->height()-2);
-    graph->setScene(scene);
-    //scene->setBackgroundBrush(set_rgb_color(255,255,255));
-}
 
 void clase_base::set_focus_element(QGraphicsPixmapItem *item, unsigned int scalex, unsigned int scaley)
 {
