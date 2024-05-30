@@ -26,12 +26,19 @@ public:
     void startCircularMovement();
     void stopCircularMovement();
     void start_oscillation();
+
     float z, l, vx, vy, ax, ay, g, x0, y0, vx0, vy0, n,r;
 private:
     void set_pos_item();
     QGraphicsPixmapItem *item;
     QElapsedTimer time;
     QTimer *p_time, *default_movement, *timer, *timer_osc;
+
+    qreal angularVelocity;
+    qreal angularAcceleration;
+    qreal m_angle;
+    QTimer* m_timer;
+    qreal m_time;
 
     double g1=200*9.8, theta0=0.0, A=200.0;
     int h;
@@ -43,7 +50,7 @@ private slots:
     void MRU();
     void set_starting_parameters(int x, int y, int vx, int vy);
     void MCU();
-    void oscillatory_movement();
+    void movimiento_circular();
 };
 
 #endif // FISICAS_H

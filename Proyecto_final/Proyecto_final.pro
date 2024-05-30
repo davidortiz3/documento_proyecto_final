@@ -10,18 +10,24 @@ CONFIG += c++17
 
 SOURCES += \
     clase_base.cpp \
+    enemies.cpp \
     escenario.cpp \
     fisicas.cpp \
     main.cpp \
+    obstaculo.cpp \
     personaje.cpp \
+    proyectil.cpp \
     sprites.cpp \
     ventana.cpp
 
 HEADERS += \
     clase_base.h \
+    enemies.h \
     escenario.h \
     fisicas.h \
+    obstaculo.h \
     personaje.h \
+    proyectil.h \
     sprites.h \
     ventana.h
 
@@ -34,6 +40,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    balas.qrc \
     nivel1.qrc \
-    nivel1.qrc \
+    obstaculo1.qrc \
     soldado.qrc

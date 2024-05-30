@@ -7,14 +7,16 @@ clase_base::clase_base(QGraphicsView *graph) {
     graph->setScene(scene);
     bola1 = new personaje(100,200,graph->height());
     plataforma=new escenario(0,0);
-    //movimiento();
+    obstaculo1= new obstaculo(0,0, graph->height());
+    bala=new proyectil(100,100,graph->height());
     set_bomberman_keys();
-    //bola1->keys(mover);
     bola1->set_keys(mover);
     scene->addItem(plataforma);
     scene->addItem(bola1);
-
-    //cargar_escena();
+    scene->addItem(obstaculo1);
+    scene->addItem(bala);
+    obstaculo1->decoracion();
+    //QObject::connect(this, SIGNAL(letterPressed(QChar letter)), bala, SLOT(handleLetterPressed(QChar)));
 }
 
 
@@ -23,6 +25,7 @@ clase_base::~clase_base()
 {
     delete scene;
     delete bola1;
+    delete plataforma;
 }
 
 void clase_base::keyPressEvent(QKeyEvent *keys)
@@ -38,26 +41,23 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
     } else if(keys->key() == Qt::Key_Space) {
         bola1->start_oscillation();
     }*/
+    /*if(bola1->x()<500 && bola1->x()>10){
+        set_focus_element(bola1,40*2,0);
+    }*/
     bola1->mover(keys->key(),true);
+    /*if(keys->key()==Qt::Key_Z){
+        emit letterPressed('z');
+    }*/
 }
 
-/*void clase_base::movimiento()
-{
-    mover[0] = Qt::Key_A;
-    mover[1] = Qt::Key_D;
-    mover[2] = Qt::Key_W;
-    mover[3] = Qt::Key_S;
-    mover[5] =Qt::Key_Space;
-}*/
 
-void clase_base::cargar_escena()
-{
-    graph->setGeometry(0,0,200,200);
 
-    scene = new QGraphicsScene;
-    scene->setSceneRect(0,0,graph->width()-2, graph->height()-2);
-    graph->setScene(scene);
-    //scene->setBackgroundBrush(set_rgb_color(255,255,255));
+
+void clase_base::set_focus_element(QGraphicsPixmapItem *item, unsigned int scalex, unsigned int scaley)
+{
+    scene->setSceneRect(item->x()+scalex-scene->width()/2,0,scene->width(),scene->height());
+
+
 }
 
 void clase_base::set_bomberman_keys()
@@ -67,6 +67,7 @@ void clase_base::set_bomberman_keys()
     mover[2] = Qt::Key_W;
     mover[3] = Qt::Key_S;
     mover[5] = Qt::Key_Space;
+
 }
 
 bool clase_base::moveImage()

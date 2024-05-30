@@ -1,40 +1,55 @@
 #ifndef ENEMIES_H
 #define ENEMIES_H
 
-#include <QObject>
+#include <QGraphicsPixmapItem>
 #include <QPointF>
-#include "Physics.h"
-//#include "personaje.h"
+#include "fisicas.h"
+#include "sprites.h"
+#include "escenario.h"
+#include "obstaculo.h"
+#include "proyectil.h"
+#include "personaje.h"
 
-class Character;
+#define enemies_x_size 33
+#define enemies_y_size 50
 
-class Enemies : public QObject {
-    Q_OBJECT
-
+class Enemies : public QGraphicsPixmapItem, public fisicas {
 public:
-    enum Type { Minion = 50, MegaMinion = 75, Boss = 100 };  // Tipos de enemigos con su respectiva vida
+    enum Type { Minion, MegaMinion, Boss };
 
-    Enemies(Type type, Character* mainCharacter, Physics* physics);  // Agregar un puntero a Physics en el constructor
+    Enemies(int z, int l, int h);
+    ~Enemies();
+    void mover_derecha();
+    void moveItem(const QPointF& direction, QGraphicsScene* scene);
+    void move();
+    void jump();
+    void chase(personaje *player);
+    void attack(personaje *player);
+    void updateHealth(int damageTaken);
+    void specialAttack(personaje *player);
+    QRect set_complete_sprites();
+    void set_animations();
+    void set_left_animation();
+    void set_right_animation();
+    void set_up_animation();
+    void set_down_animation();
+    void set_death_animation();
 
-    void move();  // Función para mover al enemigo
-    void jump();  // Función para hacer saltar al enemigo
-    void chase(QPointF playerPos);  // Función para perseguir al personaje principal
-    void attack();  // Función para atacar cuerpo a cuerpo
-    void specialAttack();
 signals:
-    void enemyDied(Enemies* enemy);  // Señal que se emite cuando el enemigo muere
+    void enemyDied(Enemies* enemy);
 
 private:
-    QPointF position;  // Posición del enemigo
-    Character* mainCharacter;
-    Physics* physics;  // Puntero a la clase Physics
-    float speed;  // Velocidad del enemigo
-    float range;  // Rango de detección del enemigo
-    float leftLimit;  // Límite izquierdo del movimiento
-    float rightLimit;  // Límite derecho del movimiento
-    bool movingRight;  // Dirección del movimiento
-    int health;  // Vida del enemigo
-    int damage;  // Daño que hace el enemigo
+    int z, l;
+    int health;
+    int damage;
+    bool movingRight = true;
+    bool onGround = true;
+    int attackRange = 5;
+    int rightLimit = 20;
+    int leftLimit = 0;
+    int range = 10;
+    personaje *player;
+    sprites* pixmap_management;
 };
 
 #endif // ENEMIES_H

@@ -1,6 +1,6 @@
 #include "fisicas.h"
 
-fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radius(100), centerX(200), centerY(200),amplitude(100), frequency(1), phase(0)
+fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radius(100), centerX(200), centerY(200),amplitude(100), frequency(1), phase(0),angularAcceleration(0), angularVelocity(5)
 {
     this->item = item;
     this->z = z;
@@ -20,16 +20,19 @@ fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radiu
     default_movement = new QTimer;
     timer = new QTimer;
     timer_osc= new  QTimer;
-    connect(timer_osc,SIGNAL(timeout()),this,SLOT(oscillatory_movement()));
-    connect(timer,SIGNAL(timeout()), this,SLOT(MCU()));
+    connect(timer,SIGNAL(timeout()), this,SLOT(movimiento_circular()));
     connect(p_time,SIGNAL(timeout()),this,SLOT(parabolic_shoot()));
     connect(default_movement,SIGNAL(timeout()),this,SLOT(MRU()));
     default_movement->start(time_step);
+
 }
 
 fisicas::~fisicas()
 {
     delete p_time;
+    delete default_movement;
+    delete timer_osc;
+    delete timer;
 }
 
 void fisicas::start_parabolic_movement(int largo, int alto)
@@ -38,8 +41,9 @@ void fisicas::start_parabolic_movement(int largo, int alto)
     default_movement->stop();
     timer->stop();
     timer_osc->stop();
-    set_starting_parameters(z,h-l,largo,alto);
+    set_starting_parameters(z,l,largo,alto);
     p_time->start(time_step);
+
 }
 
 void fisicas::set_starting_parameters_MCU(int z, int l)
@@ -54,7 +58,7 @@ void fisicas::start_MRU()
     default_movement->stop();
     stopCircularMovement();
     timer_osc->stop();
-    set_starting_parameters(z,l,0,-200);
+    set_starting_parameters(z,l,0,200);
     p_time->start(time_step);
 }
 
@@ -73,8 +77,8 @@ void fisicas::right()
 void fisicas::startCircularMovement()
 {
     set_starting_parameters_MCU(z,l);
+    timer->stop();
     default_movement->stop();
-    timer_osc->stop();
     p_time->stop();
     timer->start(16);
 }
@@ -88,6 +92,26 @@ void fisicas::start_oscillation()
 {
 
     timer_osc->start(16);
+}
+
+void fisicas::movimiento_circular()
+{
+    qreal dt = 0.016; // Time step (16 ms)
+
+    // Update angular velocity
+    angularVelocity += angularAcceleration * dt;
+
+    // Update angle
+    angle += angularVelocity * dt;
+
+    // Calculate new position
+    z= radius * std::cos(angle);
+    l= radius * std::sin(angle);
+    if (angularVelocity >= 20) {
+        angularVelocity = 1;
+    }
+    set_pos_item();
+
 }
 
 
@@ -113,7 +137,7 @@ void fisicas::parabolic_shoot()
         default_movement->stop();
         timer_osc->stop();
         p_time->stop();
-
+        l=201;
     }
 
 }
@@ -150,10 +174,3 @@ void fisicas::MCU()
 
 }
 
-void fisicas::oscillatory_movement()
-{
-    float t = time.elapsed() / 1000.0;
-    z = amplitude * std::cos(2 * M_PI * frequency * t + phase);
-    l = startY + amplitude * sin(2 * M_PI * frequency * t);
-    set_pos_item();
-}

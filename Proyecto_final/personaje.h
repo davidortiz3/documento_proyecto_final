@@ -6,6 +6,8 @@
 #include "fisicas.h"
 #include "sprites.h"
 #include "escenario.h"
+#include "obstaculo.h"
+#include "proyectil.h"
 #define personaje_x_size 33
 #define personaje_y_size 50
 #define speed 1
@@ -25,11 +27,11 @@ public:
     void set_death_animation();
     void set_keys(unsigned int *keys);
     QRect set_complete_sprites();
-    //void keys(unsigned int *j);
     void set_up_animation();
     void set_down_animation();
     bool colisiones;
     void set_right_animation();
+
     ~personaje();
 private:
    //unsigned int j[5];
@@ -39,6 +41,7 @@ private:
     unsigned int keys[4];
     void moveItem(const QPointF& direction, QGraphicsScene* scene);
     void moveImage();
+
 };
 
 #endif // PERSONAJE_H

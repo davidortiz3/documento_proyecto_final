@@ -33,6 +33,7 @@ void personaje::set_keys(unsigned int *keys)
 personaje::~personaje()
 {
     delete pixmap_management;
+
 }
 
 QRect personaje::set_complete_sprites()
@@ -72,24 +73,23 @@ void personaje::mover(unsigned int key, bool is_valid)
 {
     if(key == keys[0]){
         setPixmap(pixmap_management->get_current_pixmap(0));
-        if(is_valid) setX(x()-speed);
+        if(is_valid) start_parabolic_movement(-100,0);
     }
     else if(key == keys[1]){
         setPixmap(pixmap_management->get_current_pixmap(1));
-        if(is_valid) setX(x()+1);
+        if(is_valid) start_parabolic_movement(100,0);
     }
     else if(key == keys[2]){
         setPixmap(pixmap_management->get_current_pixmap(0));
         if(is_valid) {
+            start_parabolic_movement(0,-150);
             z=static_cast<int>(x());
             l=static_cast<int>(y());
-            start_MRU();
+
         }
     }
-    else if(key == keys[3]){
-        setPixmap(pixmap_management->get_current_pixmap(4));
-        if(is_valid) setY(y()+speed);
-    }
+
+
 }
 
 void personaje::set_right_animation()
@@ -103,6 +103,7 @@ void personaje::set_right_animation()
 
     pixmap_management->add_new_animation(dim,12);
 }
+
 
 void personaje::set_up_animation()
 {
@@ -123,7 +124,7 @@ void personaje::set_down_animation()
     dim.setX(0);
     dim.setY(323);
     dim.setHeight(1*personaje_y_size);
-    dim.setWidth(200*personaje_x_size);
+    dim.setWidth(personaje_x_size);
 
     pixmap_management->add_new_animation(dim,13);
 }
@@ -146,7 +147,7 @@ void personaje::moveItem(const QPointF& direction, QGraphicsScene* scene) {
 
     QList<QGraphicsItem*> collidingItems = scene->collidingItems(this);
     for (QGraphicsItem* item : collidingItems) {
-        escenario* otherImage = dynamic_cast<escenario*>(item);
+        obstaculo* otherImage = dynamic_cast<obstaculo*>(item);
         if (otherImage) {
             setPos(pos() - direction);  // Revert the move
             qDebug() << "Collision detected with MovableImage2.";
