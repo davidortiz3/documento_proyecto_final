@@ -25,7 +25,7 @@ public:
     void move_right();
     void keyPressEvent(QKeyEvent *keys) override;
     void movimiento();
-    void cargar_escena();
+
     void set_focus_element(QGraphicsPixmapItem *item,unsigned int scalex, unsigned int scaley);
 private:
     QGraphicsView *graph;
