@@ -11,7 +11,7 @@
 #include "personaje.h"
 
 #define enemies_x_size 81
-#define enemies_y_size 56
+#define enemies_y_size 70
 
 class enemies : public QGraphicsPixmapItem, public fisicas {
 public:
@@ -21,7 +21,7 @@ public:
     ~enemies();
     void mover_derecha();
     void moveItem(const QPointF& direction, QGraphicsScene* scene);
-    void move();
+    //void move();
     void jump();
     void chase(personaje *player);
     void attack(personaje *player);
@@ -34,12 +34,13 @@ public:
     void set_up_animation();
     void set_down_animation();
     void set_death_animation();
+    void iniciar_movimiento();
 
 signals:
     void enemyDied(enemies* enemy);
 
 private:
-    int z, l;
+    int z, l,i,m;
     float direccion;
     int health;
     int damage;
@@ -52,6 +53,8 @@ private:
     personaje *player;
     sprites* pixmap_management;
     QTimer *timer_enemi;
+public slots:
+    void move();
 };
 
 #endif // ENEMIES_H

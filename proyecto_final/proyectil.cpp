@@ -1,6 +1,6 @@
 #include "proyectil.h"
 
-proyectil::proyectil(int z, int l, int h): fisicas( z,l,h, this) {
+proyectil::proyectil(int z, int l) {
     QPixmap img(":/balas/escenario/pngegg (1).png");
     setPixmap(img.scaled(img.width()/5,img.height()/5));
     this->z=z;
@@ -27,9 +27,3 @@ QRect proyectil::animacion_disparo()
     return dim;
 }
 
-void proyectil::handleLetterPressed(QChar letter)
-{
-    if(letter=='z'){
-        start_parabolic_movement(0,500);
-    }
-}

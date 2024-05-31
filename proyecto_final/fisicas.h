@@ -43,7 +43,7 @@ private:
     qreal length=50, angle1=45;
     double g1=200*9.8, theta0=0.0, A=200.0;
     int h;
-    bool verificar();
+    void mover();
     qreal angle,phase, radius,centerX,centerY,amplitude,frequency, startY = 100;
 
 private slots:

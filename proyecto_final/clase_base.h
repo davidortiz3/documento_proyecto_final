@@ -26,22 +26,24 @@ public:
     void move_right();
     void keyPressEvent(QKeyEvent *keys) override;
     void movimiento();
-
+    void setup_enemigo();
     void set_focus_element(QGraphicsPixmapItem *item,unsigned int scalex, unsigned int scaley);
 private:
     QGraphicsView *graph;
     QGraphicsScene *scene;
     personaje *bola1;
     escenario *plataforma;
-    enemies *enemigo1;
+    QVector<enemies*> enemigo;
     unsigned int mover[5];
     QBrush set_rgb_color(int r, int g, int b, int a = 255);
     void set_bomberman_keys();
     int leftLimit, rightLimit, topLimit, bottomLimit;
-    bool moveImage();
     obstaculo *obstaculo1;
     obstaculo *obstaculo2;
     proyectil *bala;
+    void enemies_MRU();
+    void enemies_cicular();
+
 
 /*signals:
     void letterPressed(QChar letter);*/

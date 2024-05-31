@@ -14,8 +14,8 @@ enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this), 
     setX(0);
     setY(0);
 
-    timer_enemi = new QTimer;
-    connect(timer_enemi, SIGNAL(timeout()), this, SLOT(move()));
+    timer_enemi = new QTimer(this);
+    connect(timer_enemi, SIGNAL(timeout()), this, SLOT(MRU()));
     timer_enemi->start(16);
 }
 
@@ -49,7 +49,7 @@ void enemies::set_left_animation()
 {
     QRect dim;
     dim.setX(0);
-    dim.setY(23);
+    dim.setY(0);
     dim.setHeight(1*enemies_y_size);
     dim.setWidth(11*enemies_x_size);
     pixmap_management->add_new_animation(dim,11);
@@ -104,6 +104,12 @@ void enemies::set_death_animation()
     pixmap_management->add_new_animation(dim,7);
 }
 
+void enemies::iniciar_movimiento()
+{
+    set_starting_parameters_MCU(-150,0);
+    timer_enemi->start(16);
+}
+
 
 
 void enemies::move() {
@@ -120,7 +126,9 @@ void enemies::move() {
         this->setPos(this->pos().x() - speed, this->pos().y());
     }*/
     setPixmap(pixmap_management->get_current_pixmap(0));
-    setPos(x(), y() + direccion * 2);
+    setPos(i,m);
+    i-=10;
+
     qDebug()<<"se esta moviendo";
 }
 

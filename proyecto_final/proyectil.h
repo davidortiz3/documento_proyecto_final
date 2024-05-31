@@ -7,16 +7,16 @@
 #include "fisicas.h"
 #include "sprites.h"
 #include "personaje.h"
-class proyectil:public QGraphicsPixmapItem, public fisicas
+class proyectil:public QGraphicsPixmapItem
 {
 public:
-    proyectil(int z, int l, int h);
+    proyectil(int z, int l);
     void movimiento();
     QRect animacion_disparo();
 private:
     int z, l;
 private slots:
-    void handleLetterPressed(QChar letter);
+
 };
 
 #endif // PROYECTIL_H

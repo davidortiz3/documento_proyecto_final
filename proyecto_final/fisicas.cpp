@@ -1,6 +1,6 @@
 #include "fisicas.h"
 
-fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radius(100), centerX(200), centerY(200),amplitude(100), frequency(1), phase(0),angularAcceleration(3), angularVelocity(1)
+fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radius(100), centerX(200), centerY(200),amplitude(100), frequency(1), phase(0),angularAcceleration(0), angularVelocity(1)
 {
     this->item = item;
     this->z = z;
@@ -59,7 +59,7 @@ void fisicas::start_MRU()
     default_movement->stop();
     stopCircularMovement();
     timer_osc->stop();
-    set_starting_parameters(z,l,0,200);
+    set_starting_parameters(z,l,-600,0);
     p_time->start(time_step);
 }
 
@@ -105,7 +105,7 @@ void fisicas::movimiento_circular()
     angularVelocity += angularAcceleration * dt;
 
     angle += angularVelocity * dt;
-    z= 230 +radius * cos(angle);
+    z= 700 +radius * cos(angle);
     l= 330 +radius * sin(angle);
     if (angularVelocity >= 20) {
         angularVelocity = 1;
@@ -119,6 +119,11 @@ void fisicas::set_pos_item()
 {
     item->setX(z);
     item->setY(h-l);
+}
+
+void fisicas::mover()
+{
+
 }
 
 
@@ -138,9 +143,6 @@ void fisicas::parabolic_shoot()
                 timer_osc->stop();
                 p_time->stop();
                 l=324;
-        }
-        if(item->pos().x()==340){
-            l=0;
         }
     }
 

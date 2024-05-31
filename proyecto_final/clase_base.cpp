@@ -9,14 +9,18 @@ clase_base::clase_base(QGraphicsView *graph) {
     plataforma=new escenario(0,0);
     obstaculo1= new obstaculo(0,0, graph->height());
     obstaculo2= new obstaculo(0,0,graph->height());
-    enemigo1= new enemies(200,323,graph->height(), -1.0);
+    //enemigo1= new enemies(700,196,graph->height(), -1.0);
     set_bomberman_keys();
     bola1->set_keys(mover);
     scene->addItem(plataforma);
     scene->addItem(bola1);
-    scene->addItem(enemigo1);
+    //scene->addItem(enemigo1);
     scene->addItem(obstaculo1);
     set_focus_element(bola1,40*2,0);
+    setup_enemigo();
+    enemies_MRU();
+    //enemies_cicular();
+    //enemigo1->start_MRU();
     //scene->addItem(bala);
     //obstaculo1->circular();
     //obstaculo2->circular();
@@ -54,6 +58,14 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
     }*/
 }
 
+void clase_base::setup_enemigo()
+{
+    enemigo.push_back(new enemies(700,196,graph->height(), -1.0));
+    enemigo.push_back(new enemies(900,196,graph->height(), -1.0));
+    enemigo.push_back(new enemies(1000,196,graph->height(), -1.0));
+    for(short i=0; i<enemigo.length(); i++) scene->addItem(enemigo[i]);
+}
+
 
 
 
@@ -74,21 +86,14 @@ void clase_base::set_bomberman_keys()
 
 }
 
-bool clase_base::moveImage()
+void clase_base::enemies_cicular()
 {
-    bool validar=false;
-    leftLimit = 0;
-    rightLimit = 3819;
-    topLimit = 2200;
-    bottomLimit = 2000;
-    // Calcular la nueva posición
-    int newX = bola1->x() + 2;
-    int newY = bola1->y() + 2;
-
-    if ( newY <= bottomLimit){
-        validar=true;
-        return validar;
-    }else{
-        return validar;
-    }
+    enemigo[1]->startCircularMovement();
 }
+
+void clase_base::enemies_MRU()
+{
+    enemigo[0]->start_MRU();
+    enemigo[1]->start_MRU();
+}
+
