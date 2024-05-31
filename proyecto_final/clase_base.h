@@ -14,6 +14,7 @@
 #include "obstaculo.h"
 #include "personaje.h"
 #include "proyectil.h"
+#include "enemies.h"
 class clase_base: public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
@@ -32,12 +33,14 @@ private:
     QGraphicsScene *scene;
     personaje *bola1;
     escenario *plataforma;
+    enemies *enemigo1;
     unsigned int mover[5];
     QBrush set_rgb_color(int r, int g, int b, int a = 255);
     void set_bomberman_keys();
     int leftLimit, rightLimit, topLimit, bottomLimit;
     bool moveImage();
     obstaculo *obstaculo1;
+    obstaculo *obstaculo2;
     proyectil *bala;
 
 /*signals:

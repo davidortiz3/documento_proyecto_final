@@ -1,6 +1,6 @@
 #include "fisicas.h"
 
-fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radius(100), centerX(200), centerY(200),amplitude(100), frequency(1), phase(0),angularAcceleration(0), angularVelocity(5)
+fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radius(100), centerX(200), centerY(200),amplitude(100), frequency(1), phase(0),angularAcceleration(3), angularVelocity(1)
 {
     this->item = item;
     this->z = z;
@@ -23,6 +23,7 @@ fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radiu
     connect(timer,SIGNAL(timeout()), this,SLOT(movimiento_circular()));
     connect(p_time,SIGNAL(timeout()),this,SLOT(parabolic_shoot()));
     connect(default_movement,SIGNAL(timeout()),this,SLOT(MRU()));
+    connect(timer_osc,SIGNAL(timeout()),this,SLOT(updatePosition()));
     default_movement->start(time_step);
 
 }
@@ -90,23 +91,22 @@ void fisicas::stopCircularMovement()
 
 void fisicas::start_oscillation()
 {
-
-    timer_osc->start(16);
+    set_starting_parameters_MCU(z,l);
+    timer->stop();
+    default_movement->stop();
+    p_time->stop();
+    timer->stop();
+    timer_osc->start(time_step);
 }
 
 void fisicas::movimiento_circular()
 {
-    qreal dt = 0.016; // Time step (16 ms)
-
-    // Update angular velocity
+    qreal dt = 0.016;
     angularVelocity += angularAcceleration * dt;
 
-    // Update angle
     angle += angularVelocity * dt;
-
-    // Calculate new position
-    z= radius * std::cos(angle);
-    l= radius * std::sin(angle);
+    z= 230 +radius * cos(angle);
+    l= 330 +radius * sin(angle);
     if (angularVelocity >= 20) {
         angularVelocity = 1;
     }
@@ -133,14 +133,18 @@ void fisicas::parabolic_shoot()
         n++;
         set_pos_item();
 
-    if(l-200 <=0) {
-        default_movement->stop();
-        timer_osc->stop();
-        p_time->stop();
-        l=201;
+        if(l-323 <=0 ) {
+                default_movement->stop();
+                timer_osc->stop();
+                p_time->stop();
+                l=324;
+        }
+        if(item->pos().x()==340){
+            l=0;
+        }
     }
 
-}
+
 
 void fisicas::MRU()
 {
@@ -172,5 +176,16 @@ void fisicas::MCU()
     set_pos_item();
 
 
+}
+
+void fisicas::updatePosition()
+{
+    qreal angularAcceleration = (-9.81 / length) * std::sin(angle1 * M_PI / 180); // Aceleración angular
+    angularVelocity += angularAcceleration * 0.016; // Incremento de velocidad angular en segundos (16 ms)
+    angle1 += angularVelocity * 0.016; // Incremento de ángulo en segundos (16 ms)
+
+    z = 200+length * sin(angle1 * M_PI / 180);
+    l=347+length * cos(angle1 * M_PI / 180);
+    set_pos_item();
 }
 

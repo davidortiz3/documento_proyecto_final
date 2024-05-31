@@ -5,17 +5,21 @@ clase_base::clase_base(QGraphicsView *graph) {
     scene = new QGraphicsScene;
     scene->setSceneRect(0,0,graph->width()-2,graph->height()-2);
     graph->setScene(scene);
-    bola1 = new personaje(100,200,graph->height());
+    bola1 = new personaje(100,323,graph->height());
     plataforma=new escenario(0,0);
     obstaculo1= new obstaculo(0,0, graph->height());
-    bala=new proyectil(100,100,graph->height());
+    obstaculo2= new obstaculo(0,0,graph->height());
+    enemigo1= new enemies(200,323,graph->height(), -1.0);
     set_bomberman_keys();
     bola1->set_keys(mover);
     scene->addItem(plataforma);
     scene->addItem(bola1);
+    scene->addItem(enemigo1);
     scene->addItem(obstaculo1);
-    scene->addItem(bala);
-    obstaculo1->decoracion();
+    set_focus_element(bola1,40*2,0);
+    //scene->addItem(bala);
+    //obstaculo1->circular();
+    //obstaculo2->circular();
     //QObject::connect(this, SIGNAL(letterPressed(QChar letter)), bala, SLOT(handleLetterPressed(QChar)));
 }
 
@@ -41,9 +45,9 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
     } else if(keys->key() == Qt::Key_Space) {
         bola1->start_oscillation();
     }*/
-    /*if(bola1->x()<500 && bola1->x()>10){
+    if(bola1->x()<1450 || bola1->y()>600){
         set_focus_element(bola1,40*2,0);
-    }*/
+    }
     bola1->mover(keys->key(),true);
     /*if(keys->key()==Qt::Key_Z){
         emit letterPressed('z');

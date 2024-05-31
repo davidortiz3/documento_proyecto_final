@@ -3,7 +3,7 @@
 personaje::personaje(int z, int l, int h) : fisicas( z,l,h, this){
     this->z=z;
     this->l=l;
-    pixmap_management = new sprites(":/soldado/pngfind.com-metal-slug-png-4743164.png",1);
+    pixmap_management = new sprites(":/nive1/pngfind.com-metal-slug-png-4743164.png",1);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(personaje_x_size,  personaje_y_size);
 
@@ -77,7 +77,7 @@ void personaje::mover(unsigned int key, bool is_valid)
     }
     else if(key == keys[1]){
         setPixmap(pixmap_management->get_current_pixmap(1));
-        if(is_valid) start_parabolic_movement(100,0);
+        if(is_valid) start_parabolic_movement(130,0);
     }
     else if(key == keys[2]){
         setPixmap(pixmap_management->get_current_pixmap(0));
@@ -153,6 +153,13 @@ void personaje::moveItem(const QPointF& direction, QGraphicsScene* scene) {
             qDebug() << "Collision detected with MovableImage2.";
             break;
         }
+    }
+}
+
+void personaje::movimiento()
+{
+    if(pos().y()==132){
+        vy0=0;
     }
 }
 

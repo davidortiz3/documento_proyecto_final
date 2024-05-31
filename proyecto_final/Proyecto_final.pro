@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     clase_base.cpp \
+    enemies.cpp \
     escenario.cpp \
     fisicas.cpp \
     main.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     clase_base.h \
+    enemies.h \
     escenario.h \
     fisicas.h \
     obstaculo.h \
@@ -40,5 +42,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     balas.qrc \
     nivel1.qrc \
-    obstaculo1.qrc \
-    soldado.qrc
+    obstaculo1.qrc

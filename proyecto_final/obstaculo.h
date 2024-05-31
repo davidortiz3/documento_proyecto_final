@@ -10,6 +10,7 @@ class obstaculo:public QGraphicsPixmapItem, public fisicas
 public:
     obstaculo(int z, int l, int h);
     void decoracion();
+    void circular();
 private:
     int z, l;
 
