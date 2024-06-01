@@ -1,12 +1,14 @@
 #include "proyectil.h"
 
 proyectil::proyectil(QVector<enemies *> enemigo, float scale, float velocidad, float direction) {
-    pixmap_management = new sprites(":/nive1/escenario/disparo.png", scale);
+    /*pixmap_management = new sprites(":/nive1/escenario/disparo.png", scale);
     pixmap_management->set_design_size(proyectil_x_size, proyectil_y_size);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
 
     QPixmap pixmap = pixmap_management->get_fixed_image(set_complete_sprites());
-    setPixmap(pixmap);
+    setPixmap(pixmap);*/
+    QPixmap img(":/nive1/escenario/bullet_222862.png");
+    setPixmap(img.scaled(img.width()/5,img.height()/5));
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
 
@@ -17,7 +19,7 @@ proyectil::proyectil(QVector<enemies *> enemigo, float scale, float velocidad, f
     this->velocidad=velocidad;
     this->direction=direction;
     setPos(z,l);
-    movimiento();
+    //movimiento();
 
 }
 
