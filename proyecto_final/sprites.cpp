@@ -33,3 +33,10 @@ QPixmap sprites::get_current_pixmap(unsigned int animation)
 
     return character_pixmap->copy(animations[animation]).copy(animation_counter*width,0,width,height).scaled(width*scale,height*scale);
 }
+
+QPixmap sprites::get_fixed_image(QRect size)
+{
+    QPixmap pixmap = character_pixmap->copy(size).scaled(width * scale, height * scale);
+    //qDebug() << "Scaled image size:" << pixmap.size();
+    return pixmap;
+}

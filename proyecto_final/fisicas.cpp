@@ -15,7 +15,6 @@ fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radiu
     g = system_scale*9.8;
     n=0;
 
-
     p_time = new QTimer;
     default_movement = new QTimer;
     timer = new QTimer;

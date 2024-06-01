@@ -28,6 +28,8 @@ public:
     void movimiento();
     void setup_enemigo();
     void set_focus_element(QGraphicsPixmapItem *item,unsigned int scalex, unsigned int scaley);
+    QVector<proyectil *> disparos;
+    bool limite(bool limite);
 private:
     QGraphicsView *graph;
     QGraphicsScene *scene;
@@ -43,6 +45,7 @@ private:
     proyectil *bala;
     void enemies_MRU();
     void enemies_cicular();
+    void disparar();
 
 
 /*signals:

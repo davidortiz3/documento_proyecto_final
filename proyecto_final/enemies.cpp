@@ -1,6 +1,6 @@
 #include "enemies.h"
 
-enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this), player(player) {
+enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this) {
     this->z = z;
     this->l = l;
     this->direccion=direccion;
@@ -22,6 +22,7 @@ enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this), 
 enemies::~enemies()
 {
     delete pixmap_management;
+    delete timer_enemi;
 }
 
 QRect enemies::set_complete_sprites()
@@ -111,27 +112,6 @@ void enemies::iniciar_movimiento()
 }
 
 
-
-void enemies::move() {
-    /*if (this->pos().x() >= rightLimit) {
-        movingRight = false;
-    }
-    else if (this->pos().x() <= leftLimit) {
-        movingRight = true;
-    }
-    if (movingRight) {
-        this->setPos(this->pos().x() + speed, this->pos().y());
-    }
-    else {
-        this->setPos(this->pos().x() - speed, this->pos().y());
-    }*/
-    setPixmap(pixmap_management->get_current_pixmap(0));
-    setPos(i,m);
-    i-=10;
-
-    qDebug()<<"se esta moviendo";
-}
-
 void enemies::jump() {
     if (!onGround) {
         return;
@@ -140,41 +120,3 @@ void enemies::jump() {
     onGround = false;
 }
 
-void enemies::chase(personaje *player) {
-    float dx = player->x() - this->x();
-    float dy = player->y() - this->y();
-    float distance = std::sqrt(dx*dx + dy*dy);
-
-    if (distance < range) {
-        setPos(x() + speed * dx / distance, y() + speed * dy / distance);
-        if (dy > 0) {
-            jump();
-        }
-    }
-}
-
-void enemies::attack(personaje *player) {
-    float dx = player->x() - this->x();
-    float dy = player->y() - this->y();
-    float distance = std::sqrt(dx*dx + dy*dy);
-    /*if (distance < attackRange) {
-        player->reduceHealth(damage);
-    }*/
-}
-
-void enemies::updateHealth(int damageTaken) {
-    health -= damageTaken;
-    /*if (health <= 0) {
-        emit enemyDied(this);
-    }*/
-}
-
-void enemies::specialAttack(personaje *player) {
-    float dx = player->x() - this->x();
-    float dy = player->y() - this->y();
-    float distance = std::sqrt(dx*dx + dy*dy);
-    if (distance < attackRange) {
-        int specialDamage = (health == 100) ? 5 : 0;
-        //player->reduceHealth(specialDamage);
-    }
-}

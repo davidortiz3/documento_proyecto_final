@@ -7,7 +7,6 @@
 #include "sprites.h"
 #include "escenario.h"
 #include "obstaculo.h"
-#include "proyectil.h"
 #include "personaje.h"
 
 #define enemies_x_size 81
@@ -15,18 +14,12 @@
 
 class enemies : public QGraphicsPixmapItem, public fisicas {
 public:
-    enum Type { Minion, MegaMinion, Boss };
-
     enemies(int z, int l, int h, float direccion);
     ~enemies();
     void mover_derecha();
     void moveItem(const QPointF& direction, QGraphicsScene* scene);
-    //void move();
     void jump();
-    void chase(personaje *player);
-    void attack(personaje *player);
     void updateHealth(int damageTaken);
-    void specialAttack(personaje *player);
     QRect set_complete_sprites();
     void set_animations();
     void set_left_animation();
@@ -50,11 +43,8 @@ private:
     int rightLimit = 20;
     int leftLimit = 0;
     int range = 10;
-    personaje *player;
     sprites* pixmap_management;
     QTimer *timer_enemi;
-public slots:
-    void move();
 };
 
 #endif // ENEMIES_H

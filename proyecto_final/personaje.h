@@ -39,9 +39,8 @@ private:
     int z, l, velocidad=3;
     sprites *pixmap_management;
     unsigned int keys[4];
-    void moveItem(const QPointF& direction, QGraphicsScene* scene);
     void moveImage();
-    void movimiento();
+
 
 };
 

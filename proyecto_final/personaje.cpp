@@ -141,26 +141,5 @@ void personaje::set_death_animation()
     pixmap_management->add_new_animation(dim,7);
 }
 
-void personaje::moveItem(const QPointF& direction, QGraphicsScene* scene) {
-    QPointF newPos = pos() + direction;
-    setPos(newPos);
-
-    QList<QGraphicsItem*> collidingItems = scene->collidingItems(this);
-    for (QGraphicsItem* item : collidingItems) {
-        obstaculo* otherImage = dynamic_cast<obstaculo*>(item);
-        if (otherImage) {
-            setPos(pos() - direction);  // Revert the move
-            qDebug() << "Collision detected with MovableImage2.";
-            break;
-        }
-    }
-}
-
-void personaje::movimiento()
-{
-    if(pos().y()==132){
-        vy0=0;
-    }
-}
 
 
