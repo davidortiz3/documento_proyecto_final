@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/principal">
-        <file>personaje/correr_derecha.png</file>
-    </qresource>
-</RCC>
