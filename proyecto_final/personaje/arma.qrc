@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>pngkit_game-sprite-png_2414663.png</file>
+    </qresource>
+</RCC>

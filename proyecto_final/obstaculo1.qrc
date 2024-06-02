@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/obstaculo1">
+        <file>escenario/pngegg.png</file>
+    </qresource>
+</RCC>
