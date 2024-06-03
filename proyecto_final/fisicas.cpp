@@ -130,6 +130,15 @@ void fisicas::mover_bala()
     p_time->start(time_step);
 }
 
+void fisicas::bomba()
+{
+    default_movement->stop();
+    timer->stop();
+    timer_osc->stop();
+    set_starting_parameters(z,l,0,-330);
+    p_time->start(time_step);
+}
+
 
 void fisicas::parabolic_shoot()
 {

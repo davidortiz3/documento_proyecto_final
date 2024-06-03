@@ -11,11 +11,12 @@
 #include <ctime>
 #include <QObject>
 #include "escenario.h"
-#include "obstaculo.h"
+#include "arma.h"
 #include "personaje.h"
 #include "proyectil.h"
 #include "enemies.h"
 #include <QApplication>
+#include "nivel2.h"
 class clase_base: public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
@@ -32,13 +33,18 @@ public:
     void nivel1();
     void mapa(QString level);
     void soldado(QString usuario);
+    void arma_level2();
 private:
     QGraphicsView *graph;
     QGraphicsScene *scene;
     personaje *bola1;
+    arma *bola2;
     escenario *plataforma;
+    nivel2 *plataforma2;
+
     QVector<enemies*> enemigo;
-    QVector<proyectil*> bombas;
+    QVector<arma*> bombas2;
+    QVector<proyectil*> bombas1;
     QTimer *time_level1;
     unsigned int mover[5];
     QBrush set_rgb_color(int r, int g, int b, int a = 255);
@@ -52,7 +58,8 @@ private:
     bool saber_nivel();
 public slots:
     void disparar();
-    void nivel2();
+    void level2();
+    void disparar2();
 
 /*signals:
     void letterPressed(QChar letter);*/

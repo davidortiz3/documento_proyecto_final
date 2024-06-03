@@ -15,6 +15,7 @@ SOURCES += \
     escenario.cpp \
     fisicas.cpp \
     main.cpp \
+    nivel2.cpp \
     personaje.cpp \
     proyectil.cpp \
     sprites.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     enemies.h \
     escenario.h \
     fisicas.h \
+    nivel2.h \
     personaje.h \
     proyectil.h \
     sprites.h \

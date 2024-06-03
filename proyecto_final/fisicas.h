@@ -54,6 +54,7 @@ private slots:
     void updatePosition();
     void movimiento_circular();
     void mover_bala();
+    void bomba();
 };
 
 #endif // FISICAS_H

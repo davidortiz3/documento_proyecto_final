@@ -14,7 +14,7 @@ class proyectil: public fisicas, public QGraphicsPixmapItem
 {
     //Q_OBJECT
 public:
-    proyectil(int z, int l, int h);
+    proyectil(int z, int l, int h, QString ruta);
     ~proyectil();
     QTimer *timer;
     int z,l,h;
