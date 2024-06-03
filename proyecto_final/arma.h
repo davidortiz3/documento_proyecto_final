@@ -5,6 +5,8 @@
 #include <QTimer>
 #include <QGraphicsScene>
 #include "sprites.h"
+#include "enemies.h"
+#include <QVector>
 #define arma_x_size 125
 #define arma_y_size 112
 #define arma_velocidad 8
@@ -28,9 +30,15 @@ private:
     void set_death_animation();
     QTimer *timer;
     sprites *pixmap_management;
-    float speed;
+    QVector<enemies *> enemy;
+    float velocidad;
     float direction;
     unsigned int keys[4];
+    bool collition();
+    bool fuera_de_rango();
+signals:
+    bool colision(QGraphicsItem *shoot, int item);
+    bool limite(QGraphicsItem *shoot);
 };
 
 #endif // ARMA_H

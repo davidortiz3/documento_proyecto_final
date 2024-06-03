@@ -46,7 +46,7 @@ private:
     void mover();
     qreal angle,phase, radius,centerX,centerY,amplitude,frequency, startY = 100;
 
-private slots:
+public slots:
     void parabolic_shoot();
     void MRU();
     void set_starting_parameters(int x, int y, int vx, int vy);

@@ -13,7 +13,8 @@
 #define enemies_x_size 81
 #define enemies_y_size 70
 
-class enemies : public QGraphicsPixmapItem, public fisicas {
+class enemies :public fisicas, public QGraphicsPixmapItem {
+    Q_OBJECT
 public:
     enum Type { Minion, MegaMinion, Boss };
 
@@ -52,7 +53,7 @@ private:
 
     sprites* pixmap_management;
     QTimer *timer_enemi;
-public slots:
+
 
 };
 

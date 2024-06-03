@@ -133,10 +133,7 @@ void fisicas::mover_bala()
 void fisicas::bomba()
 {
     default_movement->stop();
-    timer->stop();
-    timer_osc->stop();
-    set_starting_parameters(z,l,0,-330);
-    p_time->start(time_step);
+    item->setPos(item->x()+15, item->y());
 }
 
 

@@ -1,6 +1,6 @@
 #include "arma.h"
 
-arma::arma(float scale, float speed, float direction) {
+arma::arma(float scale, float velocidad, float direction) {
     pixmap_management = new sprites(":/nive1/personaje/pngkit_game-sprite-png_2414663.png",scale);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(arma_x_size, arma_y_size);
@@ -12,6 +12,7 @@ arma::arma(float scale, float speed, float direction) {
     timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);
+    this->enemy=enemy;
 }
 
 void arma::set_keys(unsigned int *keys)
@@ -72,6 +73,32 @@ void arma::set_down_animation()
 
 void arma::move()
 {
-    setPos(x(), y() + direction * speed);
-    //if(test_collition() || test_range()) delete this;
+    setPos(x(), y() + direction * velocidad);
+    if(collition() || fuera_de_rango()) delete this;
+}
+
+bool arma::collition()
+{
+    bool is_deleted = false;
+    for(int i=0; i< enemy.length(); i++){
+        if(enemy.at(i)->collidesWithItem(this)){
+            timer->stop();
+            emit colision(this,i);
+            is_deleted = true;
+            break;
+        }
+    }
+
+    return is_deleted;
+}
+
+bool arma::fuera_de_rango()
+{
+    bool is_deleted = false;
+    if(y()<0){
+        emit limite(this);
+        is_deleted = true;
+    }
+
+    return is_deleted;
 }

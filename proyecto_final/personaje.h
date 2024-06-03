@@ -10,9 +10,10 @@
 #include "proyectil.h"
 #define personaje_x_size 33
 #define personaje_y_size 50
-#define speed 1
-class personaje :public QGraphicsPixmapItem,  public fisicas
+constexpr int speed =1;
+class personaje : public fisicas, public QGraphicsPixmapItem
 {
+    Q_OBJECT
 public:
     personaje(int z, int l, int h, QString usuario);
     void mover_derecha();

@@ -42,8 +42,8 @@ private:
     escenario *plataforma;
     nivel2 *plataforma2;
 
-    QVector<enemies*> enemigo;
-    QVector<arma*> bombas2;
+    QVector<QGraphicsPixmapItem*> enemigo;
+    QVector<nivel2*> bombas2;
     QVector<proyectil*> bombas1;
     QTimer *time_level1;
     unsigned int mover[5];
@@ -59,7 +59,9 @@ private:
 public slots:
     void disparar();
     void level2();
-    void disparar2();
+    void quitar_disparo(QGraphicsItem *shoot, int n);
+    void remove_shoot(QGraphicsItem *shoot);
+    //void disparar2();
 
 /*signals:
     void letterPressed(QChar letter);*/
