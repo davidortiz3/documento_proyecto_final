@@ -9,23 +9,27 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arma.cpp \
     clase_base.cpp \
     enemies.cpp \
     escenario.cpp \
+    final_boss.cpp \
     fisicas.cpp \
     main.cpp \
-    obstaculo.cpp \
+    nivel2.cpp \
     personaje.cpp \
     proyectil.cpp \
     sprites.cpp \
     ventana.cpp
 
 HEADERS += \
+    arma.h \
     clase_base.h \
     enemies.h \
     escenario.h \
+    final_boss.h \
     fisicas.h \
-    obstaculo.h \
+    nivel2.h \
     personaje.h \
     proyectil.h \
     sprites.h \
@@ -42,5 +46,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     balas.qrc \
     nivel1.qrc \
-    obstaculo1.qrc \
-    soldado.qrc
+    obstaculo1.qrc

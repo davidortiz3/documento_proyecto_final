@@ -9,11 +9,16 @@
 #include <QKeyEvent>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
 #include <QObject>
 #include "escenario.h"
-#include "obstaculo.h"
+#include "arma.h"
 #include "personaje.h"
 #include "proyectil.h"
+#include "enemies.h"
+#include "final_boss.h"
+#include <QApplication>
+#include "nivel2.h"
 class clase_base: public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
@@ -25,20 +30,39 @@ public:
     void move_right();
     void keyPressEvent(QKeyEvent *keys) override;
     void movimiento();
-
+    void setup_enemigo();
     void set_focus_element(QGraphicsPixmapItem *item,unsigned int scalex, unsigned int scaley);
+    void nivel1();
+    void mapa(QString level);
+    void soldado(QString usuario);
+    void arma_level2();
+    std::vector<std::string>readFile(const std::string& fileName);
 private:
     QGraphicsView *graph;
     QGraphicsScene *scene;
     personaje *bola1;
+    arma *bola2;
     escenario *plataforma;
+    nivel2 *plataforma2;
+
+    QVector<enemies*> enemigo;
+    QVector<arma*> bombas2;
+    QVector<proyectil*> bombas1;
+    QTimer *time_level1;
     unsigned int mover[5];
     QBrush set_rgb_color(int r, int g, int b, int a = 255);
     void set_bomberman_keys();
     int leftLimit, rightLimit, topLimit, bottomLimit;
-    bool moveImage();
-    obstaculo *obstaculo1;
     proyectil *bala;
+    void enemies_MRU();
+    void enemies_cicular();
+    bool limites(bool limite);
+    void terminar_level();
+    bool saber_nivel();
+public slots:
+    void disparar();
+    void level2();
+    void disparar2();
 
 /*signals:
     void letterPressed(QChar letter);*/

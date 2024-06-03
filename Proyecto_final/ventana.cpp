@@ -6,7 +6,7 @@ ventana::ventana(QWidget *parent)
     , ui(new Ui::ventana)
 {
     ui->setupUi(this);
-    carro=new clase_base(ui->graphicsView);
+    game=new clase_base(ui->graphicsView);
 }
 
 
@@ -18,5 +18,5 @@ ventana::~ventana()
 
 void ventana::keyPressEvent(QKeyEvent *evente)
 {
-    carro->keyPressEvent(evente);
+    game->keyPressEvent(evente);
 }

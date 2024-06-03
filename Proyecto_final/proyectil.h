@@ -1,22 +1,25 @@
 #ifndef PROYECTIL_H
 #define PROYECTIL_H
+
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QTimer>
+#include <QList>
 #include <QGraphicsScene>
-#include <QKeyEvent>
-#include "fisicas.h"
+#include <QDebug>
 #include "sprites.h"
-#include "personaje.h"
-class proyectil:public QGraphicsPixmapItem, public fisicas
+#include "enemies.h"
+#include "fisicas.h"
+class proyectil: public fisicas, public QGraphicsPixmapItem
 {
+    //Q_OBJECT
 public:
-    proyectil(int z, int l, int h);
-    void movimiento();
-    QRect animacion_disparo();
-private:
-    int z, l;
-private slots:
-    void handleLetterPressed(QChar letter);
+    proyectil(int z, int l, int h, QString ruta);
+    ~proyectil();
+    QTimer *timer;
+    int z,l,h;
+public slots:
+    void move();
 };
 
 #endif // PROYECTIL_H

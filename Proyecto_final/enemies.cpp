@@ -1,10 +1,10 @@
 #include "enemies.h"
-#include <cmath>
 
-Enemies::Enemies(int z, int l, int h) : fisicas(z, l, h, this), player(player) {
+enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this) {
     this->z = z;
     this->l = l;
-    pixmap_management = new sprites(":/soldado/pngfind.com-metal-slug-png-4743164.png", 1);
+    this->direccion=direccion;
+    pixmap_management = new sprites(":/nive1/personaje/kisspng-metal-slug-6-metal-slug-7-metal-slug-advance-metal-sprite-5ad6e7616174e7.7483900015240333773992.png", 1);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(enemies_x_size, enemies_y_size);
 
@@ -13,33 +13,18 @@ Enemies::Enemies(int z, int l, int h) : fisicas(z, l, h, this), player(player) {
     setPixmap(pixmap_management->get_current_pixmap(3));
     setX(0);
     setY(0);
+
+    timer_enemi = new QTimer;
+    connect(timer_enemi, SIGNAL(timeout()), this, SLOT(MRU()));
+    timer_enemi->start(16);
 }
-    /*
-    {
 
-        switch (type) {
-        case Minion:
-            health = 50;
-            damage = 2;
-            break;
-        case MegaMinion:
-            health = 75;
-            damage = 2;
-            break;
-        case Boss:
-            health = 100;
-            damage = 3;
-            break;
-        }*/
-    //}
-
-Enemies::~Enemies()
+enemies::~enemies()
 {
     delete pixmap_management;
-
 }
 
-QRect Enemies::set_complete_sprites()
+QRect enemies::set_complete_sprites()
 {
     QRect dim;
 
@@ -51,7 +36,7 @@ QRect Enemies::set_complete_sprites()
     return dim;
 }
 
-void Enemies::set_animations()
+void enemies::set_animations()
 {
     set_left_animation();
     set_right_animation();
@@ -60,17 +45,17 @@ void Enemies::set_animations()
     set_death_animation();
 }
 
-void Enemies::set_left_animation()
+void enemies::set_left_animation()
 {
     QRect dim;
     dim.setX(0);
     dim.setY(0);
     dim.setHeight(1*enemies_y_size);
-    dim.setWidth(6*enemies_x_size);
-    pixmap_management->add_new_animation(dim,6);
+    dim.setWidth(11*enemies_x_size);
+    pixmap_management->add_new_animation(dim,11);
 }
 
-void Enemies::set_right_animation()
+void enemies::set_right_animation()
 {
     QRect dim;
 
@@ -83,7 +68,7 @@ void Enemies::set_right_animation()
 }
 
 
-void Enemies::set_up_animation()
+void enemies::set_up_animation()
 {
     QRect dim;
 
@@ -95,7 +80,7 @@ void Enemies::set_up_animation()
     pixmap_management->add_new_animation(dim,4);
 }
 
-void Enemies::set_down_animation()
+void enemies::set_down_animation()
 {
     QRect dim;
 
@@ -107,7 +92,7 @@ void Enemies::set_down_animation()
     pixmap_management->add_new_animation(dim,13);
 }
 
-void Enemies::set_death_animation()
+void enemies::set_death_animation()
 {
     QRect dim;
 
@@ -119,45 +104,20 @@ void Enemies::set_death_animation()
     pixmap_management->add_new_animation(dim,7);
 }
 
-void Enemies::moveItem(const QPointF& direction, QGraphicsScene* scene) {
-    QPointF newPos = pos() + direction;
-    setPos(newPos);
-
-    QList<QGraphicsItem*> collidingItems = scene->collidingItems(this);
-    for (QGraphicsItem* item : collidingItems) {
-        obstaculo* otherImage = dynamic_cast<obstaculo*>(item);
-        if (otherImage) {
-            setPos(pos() - direction);  // Revert the move
-            qDebug() << "Collision detected with MovableImage2.";
-            break;
-        }
-    }
+void enemies::start_move()
+{
+    set_starting_parameters_MCU(-150,0);
+    timer_enemi->start(16);
 }
 
-void Enemies::move() {
-    if (this->pos().x() >= rightLimit) {
-        movingRight = false;
-    }
-    else if (this->pos().x() <= leftLimit) {
-        movingRight = true;
-    }
-    if (movingRight) {
-        this->setPos(this->pos().x() + speed, this->pos().y());
-    }
-    else {
-        this->setPos(this->pos().x() - speed, this->pos().y());
-    }
-}
-
-void Enemies::jump() {
+void enemies::jump() {
     if (!onGround) {
         return;
     }
     start_parabolic_movement(0, -150);
     onGround = false;
 }
-
-void Enemies::chase(personaje *player) {
+void enemies::chase(personaje *player) {
     float dx = player->x() - this->x();
     float dy = player->y() - this->y();
     float distance = std::sqrt(dx*dx + dy*dy);
@@ -170,7 +130,7 @@ void Enemies::chase(personaje *player) {
     }
 }
 
-void Enemies::attack(personaje *player) {
+void enemies::attack(personaje *player) {
     float dx = player->x() - this->x();
     float dy = player->y() - this->y();
     float distance = std::sqrt(dx*dx + dy*dy);
@@ -179,14 +139,14 @@ void Enemies::attack(personaje *player) {
     }*/
 }
 
-void Enemies::updateHealth(int damageTaken) {
+void enemies::updateHealth(int damageTaken) {
     health -= damageTaken;
     /*if (health <= 0) {
         emit enemyDied(this);
     }*/
 }
 
-void Enemies::specialAttack(personaje *player) {
+void enemies::specialAttack(personaje *player) {
     float dx = player->x() - this->x();
     float dy = player->y() - this->y();
     float distance = std::sqrt(dx*dx + dy*dy);

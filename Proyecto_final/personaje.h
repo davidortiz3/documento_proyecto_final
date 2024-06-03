@@ -14,7 +14,7 @@
 class personaje :public QGraphicsPixmapItem,  public fisicas
 {
 public:
-    personaje(int z, int l, int h);
+    personaje(int z, int l, int h, QString usuario);
     void mover_derecha();
     void mover_izquierda();
     void saltar();
@@ -41,6 +41,7 @@ private:
     unsigned int keys[4];
     void moveItem(const QPointF& direction, QGraphicsScene* scene);
     void moveImage();
+    void movimiento();
 
 };
 

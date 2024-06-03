@@ -10,23 +10,22 @@
 #include "proyectil.h"
 #include "personaje.h"
 
-#define enemies_x_size 33
-#define enemies_y_size 50
+#define enemies_x_size 81
+#define enemies_y_size 70
 
-class Enemies : public QGraphicsPixmapItem, public fisicas {
+class enemies : public QGraphicsPixmapItem, public fisicas {
 public:
     enum Type { Minion, MegaMinion, Boss };
 
-    Enemies(int z, int l, int h);
-    ~Enemies();
+    enemies(int z, int l, int h, float direccion);
+    ~enemies();
     void mover_derecha();
     void moveItem(const QPointF& direction, QGraphicsScene* scene);
-    void move();
-    void jump();
     void chase(personaje *player);
     void attack(personaje *player);
     void updateHealth(int damageTaken);
     void specialAttack(personaje *player);
+    void jump();
     QRect set_complete_sprites();
     void set_animations();
     void set_left_animation();
@@ -34,12 +33,14 @@ public:
     void set_up_animation();
     void set_down_animation();
     void set_death_animation();
+    void start_move();
 
 signals:
-    void enemyDied(Enemies* enemy);
+    void enemyDied(enemies* enemy);
 
 private:
-    int z, l;
+    int z, l,i,m;
+    float direccion;
     int health;
     int damage;
     bool movingRight = true;
@@ -50,6 +51,9 @@ private:
     int range = 10;
     personaje *player;
     sprites* pixmap_management;
+    QTimer *timer_enemi;
+public slots:
+
 };
 
 #endif // ENEMIES_H

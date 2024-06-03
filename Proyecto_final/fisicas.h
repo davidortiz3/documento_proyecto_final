@@ -26,6 +26,7 @@ public:
     void startCircularMovement();
     void stopCircularMovement();
     void start_oscillation();
+    double phi,omega,AM,t, acceleration;
 
     float z, l, vx, vy, ax, ay, g, x0, y0, vx0, vy0, n,r;
 private:
@@ -39,10 +40,10 @@ private:
     qreal m_angle;
     QTimer* m_timer;
     qreal m_time;
-
+    qreal length=50, angle1=45;
     double g1=200*9.8, theta0=0.0, A=200.0;
     int h;
-    bool verificar();
+    void mover();
     qreal angle,phase, radius,centerX,centerY,amplitude,frequency, startY = 100;
 
 private slots:
@@ -50,7 +51,10 @@ private slots:
     void MRU();
     void set_starting_parameters(int x, int y, int vx, int vy);
     void MCU();
+    void updatePosition();
     void movimiento_circular();
+    void mover_bala();
+    void bomba();
 };
 
 #endif // FISICAS_H

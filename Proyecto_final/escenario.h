@@ -8,7 +8,8 @@
 class escenario:public QGraphicsPixmapItem
 {
 public:
-    escenario(int z, int l);
+    escenario(int z, int l, QString level);
+    ~escenario();
 private:
     int z, l;
 };

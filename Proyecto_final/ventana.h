@@ -18,7 +18,7 @@ class ventana : public QMainWindow
 public:
     ventana(QWidget *parent = nullptr);
     ~ventana();
-    clase_base *carro;
+    clase_base *game;
     void keyPressEvent(QKeyEvent *evente);
 private:
     Ui::ventana *ui;

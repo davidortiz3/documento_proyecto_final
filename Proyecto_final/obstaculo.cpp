@@ -10,6 +10,11 @@ obstaculo::obstaculo(int z, int l, int h) : fisicas( z,l,h, this) {
 
 void obstaculo::decoracion()
 {
-    startCircularMovement();
+    start_oscillation();
 
+}
+
+void obstaculo::circular()
+{
+    startCircularMovement();
 }
