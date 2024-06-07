@@ -14,6 +14,15 @@ clase_base::~clase_base()
     delete scene;
     delete bola1;
     delete plataforma;
+
+    for(int i=0; i<enemigo.length(); i++){
+        delete enemigo[i];
+    }
+    for(int i=0; i<bombas1.length(); i++){
+        delete bombas1[i];
+    }
+    enemigo.clear();
+    bombas1.clear();
 }
 
 void clase_base::keyPressEvent(QKeyEvent *keys)
@@ -48,6 +57,11 @@ void clase_base::setup_enemigo()
     for(short i=0; i<enemigo.length(); i++) scene->addItem(enemigo[i]);
 }
 
+void clase_base::setup_enemigo2()
+{
+
+}
+
 
 
 
@@ -61,7 +75,7 @@ void clase_base::set_focus_element(QGraphicsPixmapItem *item, unsigned int scale
 void clase_base::nivel1()
 {
     mapa(":/nive1/escenario/Captura de pantalla_29-5-2024_191835_.jpeg");
-    time_level1->start(1000000);
+    time_level1->start(600000);
     soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
     setup_enemigo();
     enemies_MRU();
@@ -72,6 +86,7 @@ void clase_base::level2()
     mapa(":/nive1/escenario/nivel1.jpg");
     terminar_level();
     arma_level2();
+
 }
 
 void clase_base::quitar_disparo(QGraphicsItem *shoot, int n)
@@ -103,14 +118,6 @@ void clase_base::remove_shoot(QGraphicsItem *shoot)
 
 void clase_base::mapa(QString level)
 {
-    /*int new_width = 370;
-    int new_height = 600;
-    //graph->setGeometry(0, 0, new_width, new_height);
-    scene = new QGraphicsScene;
-    scene->setSceneRect(0, 0,graph->width() - 2, graph->height()- 2);
-    graph->setScene(scene);
-    QPixmap background(level);
-    scene->setBackgroundBrush(background);*/
     bool nivel=saber_nivel();
     if(!nivel){
         scene = new QGraphicsScene;
@@ -158,7 +165,7 @@ void clase_base::set_bomberman_keys()
 void clase_base::enemies_cicular()
 {
     enemies *enemy= dynamic_cast<enemies*>(enemigo[1]);
-    enemy->startCircularMovement();
+    enemy->start_zigzag_movement();
 }
 
 bool clase_base::limites(bool limite)
@@ -177,9 +184,6 @@ bool clase_base::limites(bool limite)
 void clase_base::terminar_level()
 {
     time_level1->stop();
-
-    //scene->clear();
-    //delete plataforma;
 }
 
 bool clase_base::saber_nivel()
@@ -205,8 +209,8 @@ void clase_base::enemies_MRU()
 {
     enemies *enemigo1=dynamic_cast<enemies*>(enemigo[1]);
     enemies *enemigo2=dynamic_cast<enemies*>(enemigo[2]);
-    enemigo1->start_MRU();
-    enemigo2->start_MRU();
+    enemigo1->start_zigzag_movement();
+    enemigo2->start_parabolic_movement(-900,0);
 
 }
 

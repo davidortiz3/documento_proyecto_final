@@ -29,6 +29,7 @@ public:
     void keyPressEvent(QKeyEvent *keys) override;
     void movimiento();
     void setup_enemigo();
+    void setup_enemigo2();
     void set_focus_element(QGraphicsPixmapItem *item,unsigned int scalex, unsigned int scaley);
     void nivel1();
     void mapa(QString level);

@@ -10,7 +10,7 @@
 #include "sprites.h"
 #include "enemies.h"
 #include "fisicas.h"
-class proyectil: public fisicas, public QGraphicsPixmapItem
+class proyectil: public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:

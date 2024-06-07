@@ -1,6 +1,6 @@
 #include "fisicas.h"
 
-fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radius(100), centerX(200), centerY(200),amplitude(100), frequency(1), phase(0),angularAcceleration(0), angularVelocity(1)
+fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item)
 {
     this->item = item;
     this->z = z;
@@ -14,52 +14,48 @@ fisicas::fisicas(int z, int l, int h, QGraphicsPixmapItem *item):angle(0), radiu
     y0 = l;
     g = system_scale*9.8;
     n=0;
+    zigzag_counter = 0;
+    amplitude = 0;
+    frequency = 0;
+    pendulum_length = 0;
+    pendulum_angle = 0;
 
 
     p_time = new QTimer;
     default_movement = new QTimer;
-    timer = new QTimer;
-    timer_osc= new  QTimer;
-    connect(timer,SIGNAL(timeout()), this,SLOT(movimiento_circular()));
+    z_time = new QTimer;
+    harmonic_time = new QTimer;
+    pendulum_time = new QTimer;
+
     connect(p_time,SIGNAL(timeout()),this,SLOT(parabolic_shoot()));
     connect(default_movement,SIGNAL(timeout()),this,SLOT(MRU()));
-    connect(timer_osc,SIGNAL(timeout()),this,SLOT(updatePosition()));
+    connect(z_time, SIGNAL(timeout()), this, SLOT(zigzag()));
+    connect(harmonic_time, SIGNAL(timeout()), this, SLOT(harmonic_motion()));
+    connect(pendulum_time, SIGNAL(timeout()), this, SLOT(pendulum_motion()));
     default_movement->start(time_step);
-
 }
 
 fisicas::~fisicas()
 {
     delete p_time;
     delete default_movement;
-    delete timer_osc;
-    delete timer;
 }
 
 void fisicas::start_parabolic_movement(int largo, int alto)
 {
 
     default_movement->stop();
-    timer->stop();
-    timer_osc->stop();
     set_starting_parameters(z,l,largo,alto);
     p_time->start(time_step);
 
 }
 
-void fisicas::set_starting_parameters_MCU(int z, int l)
-{
-    centerX = z;
-    centerY = l;
-}
 
 void fisicas::start_MRU()
 {
 
     default_movement->stop();
-    stopCircularMovement();
-    timer_osc->stop();
-    set_starting_parameters(z,l,-600,0);
+    set_starting_parameters(z,l,-900,0);
     p_time->start(time_step);
 }
 
@@ -75,46 +71,6 @@ void fisicas::right()
     item->setPos(item->x()+10, item->y());
 }
 
-void fisicas::startCircularMovement()
-{
-    set_starting_parameters_MCU(z,l);
-    timer->stop();
-    default_movement->stop();
-    p_time->stop();
-    timer->start(16);
-}
-
-void fisicas::stopCircularMovement()
-{
-    timer->stop();
-}
-
-void fisicas::start_oscillation()
-{
-    set_starting_parameters_MCU(z,l);
-    timer->stop();
-    default_movement->stop();
-    p_time->stop();
-    timer->stop();
-    timer_osc->start(time_step);
-}
-
-void fisicas::movimiento_circular()
-{
-    qreal dt = 0.016;
-    angularVelocity += angularAcceleration * dt;
-
-    angle += angularVelocity * dt;
-    z= 700 +radius * cos(angle);
-    l= 330 +radius * sin(angle);
-    if (angularVelocity >= 20) {
-        angularVelocity = 1;
-    }
-    set_pos_item();
-
-}
-
-
 void fisicas::set_pos_item()
 {
     item->setX(z);
@@ -124,8 +80,6 @@ void fisicas::set_pos_item()
 void fisicas::mover_bala()
 {
     default_movement->stop();
-    timer->stop();
-    timer_osc->stop();
     set_starting_parameters(z,l,100,-150);
     p_time->start(time_step);
 }
@@ -133,28 +87,44 @@ void fisicas::mover_bala()
 void fisicas::bomba()
 {
     default_movement->stop();
-    item->setPos(item->x()+15, item->y());
+    set_starting_parameters(z,l,0,-330);
+    p_time->start(time_step);
+}
+
+void fisicas::zigzag()
+{
+    if (zigzag_counter % 200 < 100) {
+        vx = 30;
+    } else {
+        vx = -30;
+    }
+
+    float t = (time_step / 20000.0) * n;
+    z = x0 + vx * t;
+    l = y0 + vy0 * t + 0.5 * g * t * t;
+    n++;
+    zigzag_counter++;
+    set_pos_item();
 }
 
 
 void fisicas::parabolic_shoot()
 {
 
-        float t = ((time_step/1000.0)*n);
-        vx = vx0;
-        vy = vy-g*t;
-        z = x0+vx0*t;
-        l = y0-vy0*t-(g*t*t)/2;
-        n++;
-        set_pos_item();
+    float t = ((time_step/1000.0)*n);
+    vx = vx0;
+    vy = vy-g*t;
+    z = x0+vx0*t;
+    l = y0-vy0*t-(g*t*t)/2;
+    n++;
+    set_pos_item();
 
-        if(l-323 <=0 ) {
-                default_movement->stop();
-                timer_osc->stop();
-                p_time->stop();
-                l=324;
-        }
+    if(l-323 <=0 ) {
+        default_movement->stop();
+        p_time->stop();
+        l=324;
     }
+}
 
 
 
@@ -176,28 +146,64 @@ void fisicas::set_starting_parameters(int z, int l, int vx, int vy)
     n=0;
 }
 
-void fisicas::MCU()
+void fisicas::harmonic_motion()
 {
-    angle += 0.05;
-    if (angle >= 2 * M_PI) {
-        angle = 0;
-    }
-
-    z = centerX + radius * std::cos(angle);
-    l = centerY + radius * std::sin(angle);
+    float t = (time_step / 1000.0) * n;
+    z = x0;
+    l = y0 + amplitude * cos(frequency * t);
+    n++;
     set_pos_item();
+}
+
+void fisicas::pendulum_motion()
+{
+    float t = (time_step / 60000.0) * n;
+    float angular_frequency = sqrt(g / pendulum_length);
+    pendulum_angle = pendulum_angle * cos(angular_frequency * t);
+    z = x0 + pendulum_length * sin(pendulum_angle);
+    l = y0 + pendulum_length * cos(pendulum_angle)+vy0 * t + 0.5 * g * t * t;
+    n++;
+    set_pos_item();
+}
+
+void fisicas::start_zigzag_movement()
+{
+    p_time->stop();
+    harmonic_time->stop();
+    pendulum_time->stop();
+    default_movement->stop();
+    p_time->stop();
+    set_starting_parameters(z, l, 10, 0);
+    zigzag_counter = 0;
+    z_time->start(time_step);
 
 
 }
 
-void fisicas::updatePosition()
+void fisicas::start_harmonic_movement(float amplitude, float frequency)
 {
-    qreal angularAcceleration = (-9.81 / length) * std::sin(angle1 * M_PI / 180); // Aceleración angular
-    angularVelocity += angularAcceleration * 0.016; // Incremento de velocidad angular en segundos (16 ms)
-    angle1 += angularVelocity * 0.016; // Incremento de ángulo en segundos (16 ms)
+    default_movement->stop();
+    p_time->stop();
+    z_time->stop();
+    this->amplitude = -amplitude;
+    this->frequency = frequency;
+    set_starting_parameters(z, l, 0, 0);
+    n = 0;
+    harmonic_time->start(time_step);
+}
 
-    z = 200+length * sin(angle1 * M_PI / 180);
-    l=347+length * cos(angle1 * M_PI / 180);
-    set_pos_item();
+void fisicas::start_pendulum_motion(float length, float initial_angle)
+{
+    default_movement->stop();
+    p_time->stop();
+    z_time->stop();
+    harmonic_time->stop();
+
+    this->pendulum_length = length;
+    this->pendulum_angle = initial_angle;
+
+    set_starting_parameters(z, l, 0, 0);
+    n = 0;
+    pendulum_time->start(time_step);
 }
 

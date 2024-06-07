@@ -4,19 +4,21 @@ enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this) {
     this->z = z;
     this->l = l;
     this->direccion=direccion;
-    pixmap_management = new sprites(":/nive1/personaje/kisspng-metal-slug-6-metal-slug-7-metal-slug-advance-metal-sprite-5ad6e7616174e7.7483900015240333773992.png", 1);
+    pixmap_management = new sprites(":/nive1/personaje/volar.png", 1);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(enemies_x_size, enemies_y_size);
 
     set_animations();
 
-    setPixmap(pixmap_management->get_current_pixmap(3));
+    setPixmap(pixmap_management->get_current_pixmap(0));
     setX(0);
     setY(0);
 
     timer_enemi = new QTimer;
-    connect(timer_enemi, SIGNAL(timeout()), this, SLOT(MRU()));
-    timer_enemi->start(16);
+    time_move = new QTimer;
+    //connect(timer_enemi, SIGNAL(timeout()), this, SLOT(movimiento()));
+    connect(time_move, SIGNAL(timeout()), this, SLOT(MRU()));
+    time_move->start(16);
 }
 
 enemies::~enemies()
@@ -30,8 +32,8 @@ QRect enemies::set_complete_sprites()
 
     dim.setX(0);
     dim.setY(0);
-    dim.setHeight(23*enemies_y_size);
-    dim.setWidth(23*enemies_x_size);
+    dim.setHeight(10*enemies_y_size);
+    dim.setWidth(10*enemies_x_size);
 
     return dim;
 }
@@ -50,8 +52,8 @@ void enemies::set_left_animation()
     QRect dim;
     dim.setX(0);
     dim.setY(0);
-    dim.setHeight(1*enemies_y_size);
-    dim.setWidth(11*enemies_x_size);
+    dim.setHeight(enemies_y_size);
+    dim.setWidth(enemies_x_size);
     pixmap_management->add_new_animation(dim,11);
 }
 
@@ -106,19 +108,18 @@ void enemies::set_death_animation()
 
 void enemies::iniciar_movimiento()
 {
-    set_starting_parameters_MCU(-150,0);
+    start_parabolic_movement(-150,0);
     timer_enemi->start(16);
 }
 
-
-
-
-
-void enemies::jump() {
-    if (!onGround) {
-        return;
-    }
-    start_parabolic_movement(0, -150);
-    onGround = false;
+void enemies::movimiento()
+{
+    setPixmap(pixmap_management->get_current_pixmap(0));
+    time_move->start(16);
 }
+
+
+
+
+
 

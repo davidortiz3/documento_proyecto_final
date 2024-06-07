@@ -43,5 +43,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     balas.qrc \
-    nivel1.qrc \
-    obstaculo1.qrc
+    nivel1.qrc
