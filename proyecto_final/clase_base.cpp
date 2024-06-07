@@ -83,7 +83,7 @@ void clase_base::nivel1()
 
 void clase_base::level2()
 {
-    mapa(":/nive1/escenario/nivel1.jpg");
+    mapa(":/nive1/escenario/piso_nivel2.png");
     terminar_level();
     arma_level2();
 
@@ -129,7 +129,7 @@ void clase_base::mapa(QString level)
         scene = new QGraphicsScene;
         scene->setSceneRect(0,0,graph->width()-2,graph->height()-2);
         graph->setScene(scene);
-        plataforma2=new nivel2(0,0,level);
+        plataforma2=new nivel2(10,-1000,level);
         scene->addItem(plataforma2);
     }
 }
@@ -195,11 +195,11 @@ bool clase_base::saber_nivel()
 void clase_base::disparar()
 {
 
-    bombas1.push_back(new proyectil(enemigo,bola1->x(), bola1->y()+100, graph->height(),":/nive1/pngegg (1).png"));
+    bombas1.push_back(new proyectil(enemigo,bola1->x(), bola1->y()+100, graph->height(),":/nive1/personaje/bullet_222862.png"));
     //bombas1.push_back(new proyectil(enemigo, 0.03, 10.0, -1.0));
     connect(bombas1[bombas1.length()-1],SIGNAL(collition(QGraphicsItem*,int)),this,SLOT(quitar_disparo(QGraphicsItem*,int)));
     connect(bombas1[bombas1.length()-1],SIGNAL(fuera_de_rango(QGraphicsItem*)),this,SLOT(remove_shoot(QGraphicsItem*)));
-    bombas1[bombas1.length()-1]->setPos(bola1->x(), bola1->y());
+    bombas1[bombas1.length()-1]->setPos(bola1->x()+100, bola1->y());
     scene->addItem(bombas1[bombas1.length()-1]);
     qDebug() << "Bala creada";
 }
