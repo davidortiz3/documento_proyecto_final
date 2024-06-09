@@ -3,7 +3,7 @@
 proyectil::proyectil(QVector<QGraphicsPixmapItem *> enemy, float z, float l, float h, QString ruta) {
 
     QPixmap img(ruta);
-    setPixmap(img.scaled(img.width()/20,img.height()/20));
+    setPixmap(img.scaled(img.width()/27,img.height()/27));
     timer=new QTimer;
     connect(timer, SIGNAL(timeout()),this, SLOT(move()));
     timer->start(16);
@@ -24,8 +24,8 @@ void proyectil::move()
 bool proyectil::quitar_disparo()
 {
     bool is_deleted = false;
-    if(x()>500){
-        emit fuera_de_rango(this);
+    if(x()>1500){
+        emit fuera_de_rango(this,10);
         is_deleted = true;
     }
 

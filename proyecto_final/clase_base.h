@@ -25,15 +25,13 @@ public:
     ~clase_base();
     //void get_keyEvent(QKeyEvent *event);
     void start_parabolic();
-    void move_right();
     void keyPressEvent(QKeyEvent *keys) override;
     void movimiento();
     void setup_enemigo();
     void setup_enemigo2();
-    void set_focus_element(QGraphicsPixmapItem *item,unsigned int scalex, unsigned int scaley);
+    void set_focus_element(QGraphicsPixmapItem *item, unsigned int scalex);
     void nivel1();
     void mapa(QString level);
-    void soldado(QString usuario);
     void arma_level2();
 private:
     QGraphicsView *graph;
@@ -42,7 +40,6 @@ private:
     arma *bola2;
     escenario *plataforma;
     nivel2 *plataforma2;
-
     QVector<QGraphicsPixmapItem*> enemigo;
     QVector<nivel2*> bombas2;
     QVector<proyectil*> bombas1;
@@ -60,8 +57,10 @@ private:
 public slots:
     void disparar();
     void level2();
-    void quitar_disparo(QGraphicsItem *shoot, int n);
-    void remove_shoot(QGraphicsItem *shoot);
+    void quitar_disparo(QGraphicsItem *shoot);
+    void remove_shoot(QGraphicsItem *shoot, int n);
+    void soldado(QString usuario);
+    void quitar_enemigo(int n);
     //void disparar2();
 
 /*signals:

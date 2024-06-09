@@ -17,10 +17,7 @@ class enemies :public fisicas, public QGraphicsPixmapItem {
 public:
     enemies(int z, int l, int h, float direccion);
     ~enemies();
-    void mover_derecha();
-    void moveItem(const QPointF& direction, QGraphicsScene* scene);
     //void move();
-    void jump();
     QRect set_complete_sprites();
     void set_animations();
     void set_left_animation();
@@ -43,7 +40,6 @@ private:
     int rightLimit = 20;
     int leftLimit = 0;
     int range = 10;
-
     sprites* pixmap_management;
     QTimer *timer_enemi, *time_move;
 public slots:

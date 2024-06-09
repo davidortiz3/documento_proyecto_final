@@ -14,7 +14,7 @@ class proyectil: public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    proyectil(QVector<QGraphicsPixmapItem*>enemy,float z, float l, float h, QString ruta);
+    proyectil(QVector<QGraphicsPixmapItem*>enemy, QString ruta);
     ~proyectil();
     float z,l,h;
 private:
@@ -27,6 +27,6 @@ public slots:
     void move();
 signals:
     bool collition(QGraphicsItem *shoot, int item);
-    bool fuera_de_rango(QGraphicsItem *shoot);
+    bool fuera_de_rango(QGraphicsItem *shoot, int item);
 };
 #endif // PROYECTIL_H
