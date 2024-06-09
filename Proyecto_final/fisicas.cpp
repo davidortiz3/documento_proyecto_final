@@ -189,8 +189,6 @@ void fisicas::MCU()
     z = centerX + radius * std::cos(angle);
     l = centerY + radius * std::sin(angle);
     set_pos_item();
-
-
 }
 
 void fisicas::updatePosition()

@@ -88,8 +88,6 @@ void personaje::mover(unsigned int key, bool is_valid)
 
         }
     }
-
-
 }
 
 void personaje::set_right_animation()

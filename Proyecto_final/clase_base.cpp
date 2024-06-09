@@ -67,7 +67,11 @@ void clase_base::setup_enemigo()
     for(short i=0; i<enemigo.length(); i++) scene->addItem(enemigo[i]);
 }
 
-
+void clase_base::setup_nbombs()
+{
+    nbombs.push_back(new NuclearBombs(70, 100, graf->height(), bola1, ":/nbomb.png"));
+    nbombs.push_back(new NuclearBombs(90, 100, graf->height(), bola1, ":/nbomb.png"));
+}
 
 
 void clase_base::set_focus_element(QGraphicsPixmapItem *item, unsigned int scalex, unsigned int scaley)
@@ -100,7 +104,6 @@ void clase_base::disparar2()
     scene->addItem(bombas2[bombas2.length()-1]);
     qDebug() << "Bala creada";
 }
-
 
 void clase_base::mapa(QString level)
 {
@@ -204,7 +207,7 @@ void clase_base::enemies_MRU()
 
 }
 
-std::vector<std::string>readFile(const std::string& fileName) {
+/*std::vector<std::string>readFile(const std::string& fileName) {
     std::ifstream file(fileName);
     if (!file) {
         std::cerr << "No se pudo abrir el archivo " << fileName << std::endl;
@@ -216,4 +219,11 @@ std::vector<std::string>readFile(const std::string& fileName) {
         lines.push_back(line);
     }
     return lines;
+}*/
+
+void clase_base::nuclearBombs_move()
+{
+    nbombs[0]->nbomb_move();
+    nbombs[1]->nbomb_move();
+
 }

@@ -16,9 +16,9 @@
 #include "personaje.h"
 #include "proyectil.h"
 #include "enemies.h"
-#include "final_boss.h"
 #include <QApplication>
 #include "nivel2.h"
+#include "nuclearbombs.h"
 class clase_base: public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
@@ -44,8 +44,8 @@ private:
     arma *bola2;
     escenario *plataforma;
     nivel2 *plataforma2;
-
     QVector<enemies*> enemigo;
+    QVector<NuclearBombs*> nbombs;
     QVector<arma*> bombas2;
     QVector<proyectil*> bombas1;
     QTimer *time_level1;

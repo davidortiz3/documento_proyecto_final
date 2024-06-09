@@ -13,10 +13,10 @@ SOURCES += \
     clase_base.cpp \
     enemies.cpp \
     escenario.cpp \
-    final_boss.cpp \
     fisicas.cpp \
     main.cpp \
     nivel2.cpp \
+    nuclearbombs.cpp \
     personaje.cpp \
     proyectil.cpp \
     sprites.cpp \
@@ -27,9 +27,9 @@ HEADERS += \
     clase_base.h \
     enemies.h \
     escenario.h \
-    final_boss.h \
     fisicas.h \
     nivel2.h \
+    nuclearbombs.h \
     personaje.h \
     proyectil.h \
     sprites.h \

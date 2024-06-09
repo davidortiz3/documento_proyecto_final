@@ -49,11 +49,9 @@ private:
     int rightLimit = 20;
     int leftLimit = 0;
     int range = 10;
-    personaje *player;
     sprites* pixmap_management;
-    QTimer *timer_enemi;
+    QTimer *timer_enemi, *time_move;
 public slots:
 
 };
-
 #endif // ENEMIES_H

@@ -83,24 +83,20 @@ void enemies::set_up_animation()
 void enemies::set_down_animation()
 {
     QRect dim;
-
     dim.setX(0);
     dim.setY(323);
     dim.setHeight(1*enemies_y_size);
     dim.setWidth(enemies_x_size);
-
     pixmap_management->add_new_animation(dim,13);
 }
 
 void enemies::set_death_animation()
 {
     QRect dim;
-
     dim.setX(0);
     dim.setY(3.2*enemies_y_size);
     dim.setHeight(1*enemies_y_size);
     dim.setWidth(29*enemies_x_size);
-
     pixmap_management->add_new_animation(dim,7);
 }
 
@@ -110,6 +106,12 @@ void enemies::start_move()
     timer_enemi->start(16);
 }
 
+void enemies::move()
+{
+    setPixmap(pixmap_management->get_current_pixmap(0));
+    time_move->start(16);
+}
+
 void enemies::jump() {
     if (!onGround) {
         return;
@@ -117,11 +119,11 @@ void enemies::jump() {
     start_parabolic_movement(0, -150);
     onGround = false;
 }
+
 void enemies::chase(personaje *player) {
     float dx = player->x() - this->x();
     float dy = player->y() - this->y();
     float distance = std::sqrt(dx*dx + dy*dy);
-
     if (distance < range) {
         setPos(x() + speed * dx / distance, y() + speed * dy / distance);
         if (dy > 0) {
@@ -134,16 +136,16 @@ void enemies::attack(personaje *player) {
     float dx = player->x() - this->x();
     float dy = player->y() - this->y();
     float distance = std::sqrt(dx*dx + dy*dy);
-    /*if (distance < attackRange) {
+    if (distance < attackRange) {
         player->reduceHealth(damage);
-    }*/
+    }
 }
-
 void enemies::updateHealth(int damageTaken) {
     health -= damageTaken;
-    /*if (health <= 0) {
+    if (health <= 0) {
         emit enemyDied(this);
-    }*/
+        set_death_animation();
+    }
 }
 
 void enemies::specialAttack(personaje *player) {
@@ -152,6 +154,7 @@ void enemies::specialAttack(personaje *player) {
     float distance = std::sqrt(dx*dx + dy*dy);
     if (distance < attackRange) {
         int specialDamage = (health == 100) ? 5 : 0;
-        //player->reduceHealth(specialDamage);
+        player->reduceHealth(specialDamage);
     }
 }
+
