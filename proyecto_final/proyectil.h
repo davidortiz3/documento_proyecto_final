@@ -27,6 +27,6 @@ public slots:
     void move();
 signals:
     bool collition(QGraphicsItem *shoot, int item);
-    bool fuera_de_rango(QGraphicsItem *shoot, int item);
+    bool fuera_de_rango(QGraphicsItem *shoot);
 };
 #endif // PROYECTIL_H

@@ -7,8 +7,6 @@ clase_base::clase_base(QGraphicsView *graph) {
     connect(time_level1, SIGNAL(timeout()), this, SLOT(level2()));
 }
 
-
-
 clase_base::~clase_base()
 {
     delete scene;
@@ -29,7 +27,7 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
 {
     bool nivel=saber_nivel();
     if(nivel){
-        if(bola1->x()<1450 || bola1->y()>600){
+        if(bola1->x()<1600 || bola1->y()>600){
             set_focus_element(bola1,40*2);
         }
         if(unsigned(keys->key()) == mover[0])bola1->mover(keys->key(),limites(true));
@@ -46,13 +44,12 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
             //disparar2();
         }
     }
-
 }
 
 void clase_base::setup_enemigo()
 {
 
-    enemigo.push_back(new enemies(700,200,graph->height(), -1.0));
+    enemigo.push_back(new enemies(700,330,graph->height(), -1.0));
     enemigo.push_back(new enemies(900,200,graph->height(), -1.0));
     enemigo.push_back(new enemies(1000,200,graph->height(), -1.0));
     for(short i=0; i<enemigo.length(); i++) scene->addItem(enemigo[i]);
@@ -64,13 +61,9 @@ void clase_base::setup_enemigo2()
 }
 
 
-
-
 void clase_base::set_focus_element(QGraphicsPixmapItem *item, unsigned int scalex)
 {
     scene->setSceneRect(item->x()+scalex-scene->width()/2,0,scene->width(),scene->height());
-
-
 }
 
 void clase_base::nivel1()
@@ -78,9 +71,8 @@ void clase_base::nivel1()
     mapa(":/nive1/escenario/Captura de pantalla_29-5-2024_191835_.jpeg");
     time_level1->start(600000);
     setup_enemigo();
-    soldado(":/nive1/personaje/personaje.png");
+    soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
     enemies_MRU();
-
 }
 
 void clase_base::level2()
@@ -100,6 +92,7 @@ void clase_base::remove_shoot(QGraphicsItem *shoot, int n)
 {
 
     scene->removeItem(enemigo[n]);
+    enemigo.remove(n);
     for(int i=0; i<enemigo.length(); i++){
         if(enemigo[i] == shoot){
             enemies* enemy=dynamic_cast<enemies*>(enemigo[i]);
@@ -135,12 +128,12 @@ void clase_base::soldado(QString usuario)
     bola1->set_keys(mover);
     scene->addItem(bola1);
     set_focus_element(bola1,40*2);
-    connect(bola1,SIGNAL(choque(int)),this,SLOT(quitar_enemigo(int)));
+    connect(bola1,SIGNAL(choque(QGraphicsItem*,int)),this,SLOT(quitar_disparo(QGraphicsItem*)));
 }
 
 void clase_base::quitar_enemigo(int n)
 {
-    //scene->removeItem(enemigo[n]);
+    scene->removeItem(enemigo[n]);
 }
 
 void clase_base::arma_level2()
@@ -175,7 +168,7 @@ bool clase_base::limites(bool limite)
     if (limite) posicion -=8;
     else posicion +=8;
 
-    if (posicion < -5 || posicion > 1500){
+    if (posicion < -5 || posicion > 1800){
         return false;
     }
     return true;
@@ -194,11 +187,9 @@ bool clase_base::saber_nivel()
 
 void clase_base::disparar()
 {
-
-    bombas1.push_back(new proyectil(enemigo,bola1->x(), bola1->y()+100, graph->height(),":/nive1/personaje/bullet_222862.png"));
-    //bombas1.push_back(new proyectil(enemigo, 0.03, 10.0, -1.0));
+    bombas1.push_back(new proyectil(enemigo,":/nive1/personaje/bullet_222862.png"));
     connect(bombas1[bombas1.length()-1],SIGNAL(collition(QGraphicsItem*,int)),this,SLOT(remove_shoot(QGraphicsItem*,int)));
-    connect(bombas1[bombas1.length()-1],SIGNAL(fuera_de_rango(QGraphicsItem*, int)),this,SLOT(quitar_disparo(QGraphicsItem*)));
+    connect(bombas1[bombas1.length()-1],SIGNAL(fuera_de_rango(QGraphicsItem*)),this,SLOT(quitar_disparo(QGraphicsItem*)));
     bombas1[bombas1.length()-1]->setPos(bola1->x(), bola1->y());
     scene->addItem(bombas1[bombas1.length()-1]);
     qDebug() << "Bala creada";
@@ -209,8 +200,7 @@ void clase_base::enemies_MRU()
 {
     enemies *enemigo1=dynamic_cast<enemies*>(enemigo[1]);
     enemies *enemigo2=dynamic_cast<enemies*>(enemigo[2]);
-    enemigo1->iniciar_movimiento();
-    enemigo2->start_parabolic_movement(-900,0);
-
+    //enemigo1->iniciar_movimiento();
+    //enemigo2->start_parabolic_movement(-900,0);
 }
 

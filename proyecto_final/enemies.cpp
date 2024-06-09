@@ -16,7 +16,7 @@ enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this) {
     timer_enemi = new QTimer;
     time_move = new QTimer;
     //connect(timer_enemi, SIGNAL(timeout()), this, SLOT(movimiento()));
-    connect(time_move, SIGNAL(timeout()), this, SLOT(MRU()));
+    //connect(time_move, SIGNAL(timeout()), this, SLOT(MRU()));
     //time_move->start(16);
 }
 

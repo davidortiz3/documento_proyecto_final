@@ -54,11 +54,11 @@ void personaje::set_left_animation()
     QRect dim;
 
     dim.setX(0);
-    dim.setY(personaje_y_size);
+    dim.setY(0);
     dim.setHeight(1*personaje_y_size);
-    dim.setWidth(16*personaje_x_size);
+    dim.setWidth(6*personaje_x_size);
 
-    pixmap_management->add_new_animation(dim,16);
+    pixmap_management->add_new_animation(dim,6);
 }
 
 void personaje::mover(unsigned int key, bool is_valid)
@@ -87,14 +87,12 @@ void personaje::mover(unsigned int key, bool is_valid)
         setPixmap(pixmap_management->get_current_pixmap(1));
         if(is_valid) {
             if(choque_enemigo()) {
-                start_parabolic_movement(0,jump);
-            }else{
                 start_parabolic_movement(0,0);
+            }else{
+                start_parabolic_movement(0,jump);
             }
         }
     }
-
-
 }
 
 void personaje::set_right_animation()
@@ -102,11 +100,11 @@ void personaje::set_right_animation()
     QRect dim;
 
     dim.setX(0);
-    dim.setY(540);
-    dim.setHeight(71);
-    dim.setWidth(912);
+    dim.setY(8.5*personaje_y_size);
+    dim.setHeight(1*personaje_y_size);
+    dim.setWidth(12*personaje_x_size);
 
-    pixmap_management->add_new_animation(dim,18);
+    pixmap_management->add_new_animation(dim,12);
 }
 
 bool personaje::choque_enemigo()
@@ -115,7 +113,7 @@ bool personaje::choque_enemigo()
     for(int i=0; i< enemigo.length(); i++){
         enemies *enemy=dynamic_cast<enemies*>(enemigo.at(i));
         if(enemy->collidesWithItem(this)){
-            emit choque(i);
+            emit choque(enemigo[i]);
             qDebug() << "Hubo colision";
             is_deleted = true;
             break;
@@ -161,4 +159,3 @@ void personaje::set_death_animation()
 
     pixmap_management->add_new_animation(dim,7);
 }
-

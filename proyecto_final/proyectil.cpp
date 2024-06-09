@@ -1,6 +1,6 @@
 #include "proyectil.h"
 
-proyectil::proyectil(QVector<QGraphicsPixmapItem *> enemy, float z, float l, float h, QString ruta) {
+proyectil::proyectil(QVector<QGraphicsPixmapItem *> enemy, QString ruta) {
 
     QPixmap img(ruta);
     setPixmap(img.scaled(img.width()/27,img.height()/27));
@@ -25,7 +25,7 @@ bool proyectil::quitar_disparo()
 {
     bool is_deleted = false;
     if(x()>1500){
-        emit fuera_de_rango(this,10);
+        emit fuera_de_rango(this);
         is_deleted = true;
     }
 

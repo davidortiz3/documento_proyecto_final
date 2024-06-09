@@ -9,8 +9,8 @@
 #include "escenario.h"
 #include "obstaculo.h"
 #include "proyectil.h"
-#define personaje_x_size 45
-#define personaje_y_size 85
+#define personaje_x_size 33
+#define personaje_y_size 50
 constexpr int speed =1;
 class personaje : public fisicas, public QGraphicsPixmapItem
 {
@@ -37,13 +37,12 @@ public:
 private:
    //unsigned int j[5];
     int leftLimit, rightLimit, topLimit, bottomLimit;
-    int z, l,derecha=150, izquierda=-150,jump=-150;
+    int z, l,derecha=400, izquierda=-150,jump=-150;
     sprites *pixmap_management;
     unsigned int keys[4];
 public slots:
     void mover(unsigned int n, bool is_valid);
 signals:
-    bool choque(int n);
+    bool choque(QGraphicsItem* enemy);
 };
-
 #endif // PERSONAJE_H
