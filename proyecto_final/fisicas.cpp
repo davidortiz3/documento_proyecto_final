@@ -126,6 +126,18 @@ void fisicas::parabolic_shoot()
     }
 }
 
+void fisicas::parabolic_shoot_bomba()
+{
+    default_movement->stop();
+    float t = ((time_step/1000.0)*n);
+    vx = vx0;
+    vy = vy-g*t;
+    z = x0+vx0*t;
+    l = y0-vy0*t-(g*t*t)/2;
+    n++;
+    set_pos_item();
+}
+
 
 
 void fisicas::MRU()
@@ -149,8 +161,8 @@ void fisicas::set_starting_parameters(int z, int l, int vx, int vy)
 void fisicas::harmonic_motion()
 {
     float t = (time_step / 1000.0) * n;
-    z = x0;
-    l = y0 + amplitude * cos(frequency * t);
+    l = x0;
+    z = y0 + amplitude * cos(frequency * t);
     n++;
     set_pos_item();
 }

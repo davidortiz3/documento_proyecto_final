@@ -46,6 +46,7 @@ private:
 
 private slots:
     void parabolic_shoot();
+    void parabolic_shoot_bomba();
     void MRU();
     void set_starting_parameters(int x, int y, int vx, int vy);
     void zigzag();

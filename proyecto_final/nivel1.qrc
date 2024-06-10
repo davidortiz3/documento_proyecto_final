@@ -12,5 +12,9 @@
         <file>personaje/volar.png</file>
         <file>escenario/piso_nivel2.png</file>
         <file>personaje/personaje.png</file>
+        <file>bomba.png</file>
+        <file>personaje/pngegg.png</file>
+        <file>personaje/pngegg (1).png</file>
+        <file>personaje/depositphotos_537901280-stock-illustration-military-plane-front-view-green.png</file>
     </qresource>
 </RCC>

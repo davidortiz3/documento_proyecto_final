@@ -14,12 +14,17 @@ class NuclearBombs:public fisicas, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    NuclearBombs(int z, int l, int h, personaje *player, QString ruta);
+    NuclearBombs(int z, int l, int h, QString ruta);
     QTimer *timer;
+    QTimer *timer_boom;
     int z,l,h;
-    void move_nbomb();
 private:
-    personaje *player;
+    bool limite();
+public slots:
+    void move();
+signals:
+    bool explosion(QGraphicsItem* bomba);
 };
+
 
 #endif // NUCLEARBOMBS_H

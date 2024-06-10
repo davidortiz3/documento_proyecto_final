@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     arma.cpp \
+    bombas.cpp \
+    burst.cpp \
     clase_base.cpp \
     enemies.cpp \
     escenario.cpp \
@@ -24,6 +26,8 @@ SOURCES += \
 
 HEADERS += \
     arma.h \
+    bombas.h \
+    burst.h \
     clase_base.h \
     enemies.h \
     escenario.h \

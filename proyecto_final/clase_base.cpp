@@ -5,6 +5,7 @@ clase_base::clase_base(QGraphicsView *graph) {
     time_level1=new QTimer;
     nivel1();
     connect(time_level1, SIGNAL(timeout()), this, SLOT(level2()));
+    //level2();
 }
 
 clase_base::~clase_base()
@@ -19,8 +20,13 @@ clase_base::~clase_base()
     for(int i=0; i<bombas1.length(); i++){
         delete bombas1[i];
     }
+    for(int i=0; i<bombas2.length(); i++){
+        delete bombas2[i];
+    }
     enemigo.clear();
     bombas1.clear();
+    bombas2.clear();
+    bombas3.clear();
 }
 
 void clase_base::keyPressEvent(QKeyEvent *keys)
@@ -35,13 +41,16 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
         else if(unsigned(keys->key()) == mover[2]) bola1->mover(keys->key(), true);
         else if(unsigned(keys->key()) == mover[3]) disparar();
     }else{
+        if(bola2->x()<1600 || bola2->y()>600){
+            set_focus_element(bola2,40*2);
+        }
         if(unsigned(keys->key()) == mover[0]){
-            bola1->mover(keys->key(),limites(true));
+            bola2->mover(keys->key(),limites(true));
         }
         else if(unsigned(keys->key()) == mover[1]){
-            bola1->mover(keys->key(),limites(false));
+            bola2->mover(keys->key(),limites(false));
         }else if(unsigned(keys->key()==mover[2])){
-            //disparar2();
+            disparar2();
         }
     }
 }
@@ -57,7 +66,13 @@ void clase_base::setup_enemigo()
 
 void clase_base::setup_enemigo2()
 {
-    bombas2.push_back(new NuclearBombs());
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(65,750);
+    int number = dis(gen);
+    bombas2.push_back(new NuclearBombs(number,700, graph->height(),":/nive1/bomba.png"));
+    connect(bombas2[bombas2.length()-1],SIGNAL(explosion(QGraphicsItem*)),this,SLOT(quitar_item(QGraphicsItem*)));
+    scene2->addItem(bombas2[bombas2.length()-1]);
 }
 
 
@@ -69,23 +84,34 @@ void clase_base::set_focus_element(QGraphicsPixmapItem *item, unsigned int scale
 void clase_base::nivel1()
 {
     mapa(":/nive1/escenario/Captura de pantalla_29-5-2024_191835_.jpeg");
-    time_level1->start(1000);
+    time_level1->start(100000);
     setup_enemigo();
     soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
-    enemies_MRU();
+    //enemies_MRU();
 
 }
 
 void clase_base::level2()
 {
+    timer_bomba=new QTimer;
     mapa(":/nive1/escenario/piso_nivel2.png");
     terminar_level();
-    soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
+    arma_level2();
+    //setup_helicoptero();
+    //fisicas_helicoptero();
+    //soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
+    connect(timer_bomba,SIGNAL(timeout()),this,SLOT(setup_enemigo2()));
+    timer_bomba->start(3000);
 }
 
 void clase_base::quitar_disparo(QGraphicsItem *shoot)
 {
    scene->removeItem(shoot);
+}
+
+void clase_base::quitar_item(QGraphicsItem *shoot)
+{
+    scene2->removeItem(shoot);
 }
 
 void clase_base::remove_shoot(QGraphicsItem *shoot, int n)
@@ -102,6 +128,20 @@ void clase_base::remove_shoot(QGraphicsItem *shoot, int n)
     }
 }
 
+void clase_base::quitar_bomba(QGraphicsItem *shoot, int n)
+{
+    scene2->removeItem(shoot);
+    scene2->removeItem(bombas2[n]);
+    for(int i=0; i<bombas2.length(); i++){
+        if(bombas2[i] == shoot){
+            disconnect(bombas2[i]);
+            bombas2.remove(i);
+            //scene2->removeItem(bombas2[i]);
+            break;
+        }
+    }
+}
+
 void clase_base::mapa(QString level)
 {
     bool nivel=saber_nivel();
@@ -112,11 +152,11 @@ void clase_base::mapa(QString level)
         plataforma=new escenario(0,0,level);
         scene->addItem(plataforma);
     }else{
-        scene = new QGraphicsScene;
-        scene->setSceneRect(0,0,graph->width()-2,graph->height()-2);
-        graph->setScene(scene);
-        plataforma2=new nivel2(50,-1000,level);
-        scene->addItem(plataforma2);
+        scene2 = new QGraphicsScene;
+        scene2->setSceneRect(0,0,graph->width()-2,graph->height()-2);
+        graph->setScene(scene2);
+        plataforma2=new nivel2(0,-1350,level);
+        scene2->addItem(plataforma2);
     }
 }
 
@@ -140,7 +180,7 @@ void clase_base::arma_level2()
     bola2=new arma(1);
     set_bomberman_keys();
     bola2->set_keys(mover);
-    scene->addItem(bola2);
+    scene2->addItem(bola2);
     bola2->setPos(0,350);
 }
 
@@ -174,6 +214,9 @@ bool clase_base::limites(bool limite)
 void clase_base::terminar_level()
 {
     time_level1->stop();
+    //scene->clear();
+    enemigo.clear();
+    bombas1.clear();
 }
 
 bool clase_base::saber_nivel()
@@ -187,6 +230,21 @@ void clase_base::leer_archivo()
 
 }
 
+void clase_base::setup_helicoptero()
+{
+    helicoptero.push_back(new NuclearBombs(70, 100,graph->height(),":/nive1/personaje/pngegg (1).png"));
+    helicoptero.push_back(new NuclearBombs(400, 100,graph->height(),":/nive1/personaje/depositphotos_537901280-stock-illustration-military-plane-front-view-green.png"));
+    for(int i=0; i<helicoptero.length();i++){
+        scene2->addItem(helicoptero[i]);
+    }
+}
+
+void clase_base::fisicas_helicoptero()
+{
+    helicoptero[0]->start_pendulum_motion(50,200);
+    helicoptero[1]->start_harmonic_movement(100,1);
+}
+
 void clase_base::disparar()
 {
     bombas1.push_back(new proyectil(enemigo,":/nive1/personaje/bullet_222862.png"));
@@ -197,7 +255,16 @@ void clase_base::disparar()
     qDebug() << "Bala creada";
 }
 
+void clase_base::disparar2()
+{
+    bombas3.push_back(new bombas(bombas2,":/nive1/pngegg (1).png"));
+    connect(bombas3[bombas3.length()-1],SIGNAL(colision(QGraphicsItem*,int)),this,SLOT(quitar_bomba(QGraphicsItem*,int)));
+    //connect(bombas3[bombas3.length()-1],SIGNAL(quitar(QGraphicsItem*)),this,SLOT(quitar_item(QGraphicsItem*)));
+    bombas3[bombas3.length()-1]->setPos(bola2->x()+50, bola2->y());
+    scene2->addItem(bombas3[bombas3.length()-1]);
+    //qDebug() << "Bala creada";
 
+}
 void clase_base::enemies_MRU()
 {
     enemies *enemigo1=dynamic_cast<enemies*>(enemigo[1]);
