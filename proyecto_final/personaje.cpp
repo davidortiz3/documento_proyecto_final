@@ -1,6 +1,6 @@
 #include "personaje.h"
 
-personaje::personaje(QVector<QGraphicsPixmapItem*>enemigo,int z, int l, int h, QString usuario) : fisicas( z,l,h, this){
+personaje::personaje(QVector<QGraphicsPixmapItem*>enemigo,int z, int l, int h, QString usuario): fisicas( z,l,h, this){
     this->z=z;
     this->l=l;
     pixmap_management = new sprites(usuario,1);
@@ -19,14 +19,11 @@ void personaje::set_keys(unsigned int *keys)
     for(unsigned int i=0;i<5;i++) this->keys[i] = keys[i];
 }
 
-
-
 personaje::~personaje()
 {
     delete pixmap_management;
 
 }
-
 
 QRect personaje::set_complete_sprites()
 {
@@ -66,31 +63,22 @@ void personaje::mover(unsigned int key, bool is_valid)
     if(key == keys[0]){
         setPixmap(pixmap_management->get_current_pixmap(0));
         if(is_valid){
-            if(choque_enemigo()){
-                start_parabolic_movement(0,0);
-            }else{
-                start_parabolic_movement(izquierda,0);
-            }
+            start_parabolic_movement(izquierda,0);
+            if(choque_enemigo());
         }
     }
     else if(key == keys[1]){
         setPixmap(pixmap_management->get_current_pixmap(1));
-        if(is_valid) {         
-            if(choque_enemigo()){
-                start_parabolic_movement(0,0);
-            }else{
-                start_parabolic_movement(derecha,0);
-            }
+        if(is_valid) {
+            start_parabolic_movement(derecha,0);
+            if(choque_enemigo());
         }
     }
     else if(key == keys[2]){
         setPixmap(pixmap_management->get_current_pixmap(1));
         if(is_valid) {
-            if(choque_enemigo()) {
-                start_parabolic_movement(0,0);
-            }else{
-                start_parabolic_movement(0,jump);
-            }
+            start_parabolic_movement(0,jump);
+            if(choque_enemigo());
         }
     }
 }
@@ -113,7 +101,7 @@ bool personaje::choque_enemigo()
     for(int i=0; i< enemigo.length(); i++){
         enemies *enemy=dynamic_cast<enemies*>(enemigo.at(i));
         if(enemy->collidesWithItem(this)){
-            emit choque(enemigo[i]);
+            emit choque(i);
             qDebug() << "Hubo colision";
             is_deleted = true;
             break;
@@ -122,7 +110,6 @@ bool personaje::choque_enemigo()
 
     return is_deleted;
 }
-
 
 void personaje::set_up_animation()
 {

@@ -16,6 +16,7 @@ SOURCES += \
     fisicas.cpp \
     main.cpp \
     nivel2.cpp \
+    nuclearbombs.cpp \
     personaje.cpp \
     proyectil.cpp \
     sprites.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     escenario.h \
     fisicas.h \
     nivel2.h \
+    nuclearbombs.h \
     personaje.h \
     proyectil.h \
     sprites.h \

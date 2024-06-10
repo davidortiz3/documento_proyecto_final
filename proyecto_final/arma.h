@@ -24,10 +24,7 @@ public slots:
 private:
     QRect set_complete_sprites();
     void set_animations();
-    void set_left_animation();
-    void set_right_animation();
     void set_down_animation();
-    void set_death_animation();
     QTimer *timer;
     sprites *pixmap_management;
     QVector<enemies *> enemy;

@@ -1,5 +1,7 @@
 #include "nivel2.h"
 
+#include "nivel2.h"
+
 nivel2::nivel2(int z, int l,QString ruta) {
     QPixmap img(ruta);
     setPixmap(img.scaled(img.width()/5,img.height()/5));

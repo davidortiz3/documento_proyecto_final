@@ -16,8 +16,8 @@ enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this) {
     timer_enemi = new QTimer;
     time_move = new QTimer;
     //connect(timer_enemi, SIGNAL(timeout()), this, SLOT(movimiento()));
-    //connect(time_move, SIGNAL(timeout()), this, SLOT(MRU()));
-    //time_move->start(16);
+    connect(time_move, SIGNAL(timeout()), this, SLOT(harmonic_motion()));
+    time_move->start(16);
 }
 
 enemies::~enemies()
@@ -68,7 +68,6 @@ void enemies::set_right_animation()
     pixmap_management->add_new_animation(dim,12);
 }
 
-
 void enemies::set_up_animation()
 {
     QRect dim;
@@ -116,9 +115,4 @@ void enemies::movimiento()
     setPixmap(pixmap_management->get_current_pixmap(0));
     time_move->start(16);
 }
-
-
-
-
-
 

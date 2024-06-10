@@ -17,11 +17,6 @@ class personaje : public fisicas, public QGraphicsPixmapItem
     Q_OBJECT
 public:
     personaje(QVector<QGraphicsPixmapItem *> enemigo, int z, int l, int h, QString usuario);
-    void mover_izquierda();
-    void saltar();
-    void agachar();
-    void colision();
-    bool debug();
     void set_animations();
     void set_left_animation();
     void set_death_animation();
@@ -40,9 +35,10 @@ private:
     int z, l,derecha=400, izquierda=-150,jump=-150;
     sprites *pixmap_management;
     unsigned int keys[4];
+    int vida_personaje=100;
 public slots:
     void mover(unsigned int n, bool is_valid);
 signals:
-    bool choque(QGraphicsItem* enemy);
+    bool choque(int n);
 };
 #endif // PERSONAJE_H

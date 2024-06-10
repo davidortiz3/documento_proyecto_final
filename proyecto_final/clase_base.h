@@ -15,6 +15,7 @@
 #include "personaje.h"
 #include "proyectil.h"
 #include "enemies.h"
+#include "nuclearbombs.h"
 #include <QApplication>
 #include "nivel2.h"
 class clase_base: public QObject, public QGraphicsRectItem
@@ -41,12 +42,11 @@ private:
     escenario *plataforma;
     nivel2 *plataforma2;
     QVector<QGraphicsPixmapItem*> enemigo;
-    QVector<nivel2*> bombas2;
+    QVector<NuclearBombs*> bombas2;
     QVector<proyectil*> bombas1;
     QTimer *time_level1;
     unsigned int mover[5];
     QBrush set_rgb_color(int r, int g, int b, int a = 255);
-    void set_bomberman_keys();
     int leftLimit, rightLimit, topLimit, bottomLimit;
     proyectil *bala;
     void enemies_MRU();
@@ -54,6 +54,8 @@ private:
     bool limites(bool limite);
     void terminar_level();
     bool saber_nivel();
+    void leer_archivo();
+
 public slots:
     void disparar();
     void level2();

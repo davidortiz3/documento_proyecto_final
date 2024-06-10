@@ -17,7 +17,7 @@ proyectil::~proyectil()
 
 void proyectil::move()
 {
-    setPos(x()+10, y() );
+    setPos(x()+10, y());
     if(quitar_disparo() || remove_shoot()) delete this;
 }
 
@@ -28,7 +28,6 @@ bool proyectil::quitar_disparo()
         emit fuera_de_rango(this);
         is_deleted = true;
     }
-
     return is_deleted;
 }
 
@@ -44,6 +43,5 @@ bool proyectil::remove_shoot()
             break;
         }
     }
-
     return is_deleted;
 }
