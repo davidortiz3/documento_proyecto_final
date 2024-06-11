@@ -35,6 +35,7 @@ public:
     void set_focus_element(QGraphicsPixmapItem *item, unsigned int scalex);
     void nivel1();
     void mapa(QString level);
+    void mapa2(QString level);
     void arma_level2();
 private:
     QGraphicsView *graph;

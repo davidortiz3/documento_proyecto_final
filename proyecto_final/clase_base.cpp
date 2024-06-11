@@ -84,7 +84,7 @@ void clase_base::set_focus_element(QGraphicsPixmapItem *item, unsigned int scale
 void clase_base::nivel1()
 {
     mapa(":/nive1/escenario/Captura de pantalla_29-5-2024_191835_.jpeg");
-    time_level1->start(100000);
+    time_level1->start(1000);
     setup_enemigo();
     soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
     //enemies_MRU();
@@ -97,8 +97,8 @@ void clase_base::level2()
     mapa(":/nive1/escenario/piso_nivel2.png");
     terminar_level();
     arma_level2();
-    //setup_helicoptero();
-    //fisicas_helicoptero();
+    setup_helicoptero();
+    fisicas_helicoptero();
     //soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
     connect(timer_bomba,SIGNAL(timeout()),this,SLOT(setup_enemigo2()));
     timer_bomba->start(3000);
@@ -106,7 +106,7 @@ void clase_base::level2()
 
 void clase_base::quitar_disparo(QGraphicsItem *shoot)
 {
-   scene->removeItem(shoot);
+    scene->removeItem(shoot);
 }
 
 void clase_base::quitar_item(QGraphicsItem *shoot)
@@ -130,12 +130,13 @@ void clase_base::remove_shoot(QGraphicsItem *shoot, int n)
 
 void clase_base::quitar_bomba(QGraphicsItem *shoot, int n)
 {
-    scene2->removeItem(shoot);
+    //scene2->removeItem(shoot);
     scene2->removeItem(bombas2[n]);
+    bombas2.remove(n);
     for(int i=0; i<bombas2.length(); i++){
         if(bombas2[i] == shoot){
             disconnect(bombas2[i]);
-            bombas2.remove(i);
+            //bombas2.remove(i);
             //scene2->removeItem(bombas2[i]);
             break;
         }
@@ -272,4 +273,3 @@ void clase_base::enemies_MRU()
     //enemigo1->iniciar_movimiento();
     //enemigo2->start_parabolic_movement(-900,0);
 }
-

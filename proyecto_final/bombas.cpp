@@ -17,7 +17,7 @@ bombas::~bombas()
 void bombas::move()
 {
     setPos(x(), y()-10);
-    if(quitar_disparo() || remove_shoot()) qDebug()<<"bomba";
+    if(quitar_disparo() || remove_shoot()) delete this;
 }
 
 bool bombas::quitar_disparo()
