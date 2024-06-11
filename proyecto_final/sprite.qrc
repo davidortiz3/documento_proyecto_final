@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/trump">
+        <file>personaje/SeekPng.com_sprite-sheet-png_2302939.png</file>
+    </qresource>
+</RCC>
