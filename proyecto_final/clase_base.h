@@ -19,6 +19,8 @@
 #include <QApplication>
 #include "nivel2.h"
 #include <random>
+#include <QFile>
+#include <QDataStream>
 #include "bombas.h"
 class clase_base: public QObject, public QGraphicsRectItem
 {
@@ -60,9 +62,11 @@ private:
     bool limites(bool limite);
     void terminar_level();
     bool saber_nivel();
-    void leer_archivo();
+    void escribir_archivo(const QString &archivo, const QString &contenido);
+    QString leer_archivo(const QString &filePath);
     void setup_helicoptero();
     void fisicas_helicoptero();
+    int puntaje;
 public slots:
     void disparar();
     void disparar2();
@@ -71,7 +75,7 @@ public slots:
     void quitar_item(QGraphicsItem* shoot);
     void remove_shoot(QGraphicsItem *shoot, int n);
     void quitar_bomba(QGraphicsItem *shoot, int n);
-    void soldado(QString usuario);
+    void soldado(const QString usuario);
     void quitar_enemigo(int n);
     void setup_enemigo2();
     //void disparar2();

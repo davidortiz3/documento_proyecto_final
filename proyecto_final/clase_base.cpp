@@ -97,11 +97,11 @@ void clase_base::level2()
     mapa(":/nive1/escenario/piso_nivel2.png");
     terminar_level();
     arma_level2();
-    setup_helicoptero();
-    fisicas_helicoptero();
+    //setup_helicoptero();
+    //fisicas_helicoptero();
     //soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
     connect(timer_bomba,SIGNAL(timeout()),this,SLOT(setup_enemigo2()));
-    timer_bomba->start(3000);
+    timer_bomba->start(2000);
 }
 
 void clase_base::quitar_disparo(QGraphicsItem *shoot)
@@ -112,6 +112,14 @@ void clase_base::quitar_disparo(QGraphicsItem *shoot)
 void clase_base::quitar_item(QGraphicsItem *shoot)
 {
     scene2->removeItem(shoot);
+    for(int i=0; i<bombas2.length(); i++){
+        if(bombas2[i] == shoot){
+            //enemies* enemy=dynamic_cast<enemies*>(enemigo[i]);
+            disconnect(bombas2[i]);
+            bombas2.remove(i);
+            break;
+        }
+    }
 }
 
 void clase_base::remove_shoot(QGraphicsItem *shoot, int n)
@@ -161,7 +169,7 @@ void clase_base::mapa(QString level)
     }
 }
 
-void clase_base::soldado(QString usuario)
+void clase_base::soldado(const QString usuario)
 {
     bola1 = new personaje(enemigo,100,323,graph->height(),usuario);
     set_bomberman_keys();
@@ -226,9 +234,35 @@ bool clase_base::saber_nivel()
     return cual;
 }
 
-void clase_base::leer_archivo()
+void clase_base::escribir_archivo(const QString &archivo, const QString &contenido)
 {
+    QFile file(archivo);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "No se puede abrir el archivo para escritura";
+        return;
+    }
 
+    QTextStream out(&file);
+    out << contenido;
+
+    file.close();
+}
+
+QString clase_base::leer_archivo(const QString &filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "No se puede abrir el archivo para lectura";
+    }
+
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString dato = in.readLine();
+        //qDebug() << line;
+        return dato;
+    }
+
+    file.close();
 }
 
 void clase_base::setup_helicoptero()
