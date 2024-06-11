@@ -1,34 +1,23 @@
 #include "personaje.h"
 
-personaje::personaje(int z, int l, int h, QString usuario) : fisicas( z,l,h, this){
+personaje::personaje(QVector<QGraphicsPixmapItem*>enemigo,int z, int l, int h, QString usuario): fisicas( z,l,h, this){
     this->z=z;
     this->l=l;
     pixmap_management = new sprites(usuario,1);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(personaje_x_size,  personaje_y_size);
-
     set_animations();
-
     setPixmap(pixmap_management->get_current_pixmap(3));
     setX(0);
     setY(0);
-
+    this->enemigo=enemigo;
 }
-
-void personaje::mover_derecha()
-{
-    z+=velocidad;
-    setPos(z,l);
-}
-
 
 
 void personaje::set_keys(unsigned int *keys)
 {
     for(unsigned int i=0;i<5;i++) this->keys[i] = keys[i];
 }
-
-
 
 personaje::~personaje()
 {
@@ -73,19 +62,23 @@ void personaje::mover(unsigned int key, bool is_valid)
 {
     if(key == keys[0]){
         setPixmap(pixmap_management->get_current_pixmap(0));
-        if(is_valid) start_parabolic_movement(-100,0);
+        if(is_valid){
+            start_parabolic_movement(izquierda,0);
+            if(choque_enemigo());
+        }
     }
     else if(key == keys[1]){
         setPixmap(pixmap_management->get_current_pixmap(1));
-        if(is_valid) start_parabolic_movement(130,0);
+        if(is_valid) {
+            start_parabolic_movement(derecha,0);
+            if(choque_enemigo());
+        }
     }
     else if(key == keys[2]){
         setPixmap(pixmap_management->get_current_pixmap(1));
         if(is_valid) {
-            start_parabolic_movement(0,-150);
-            z=static_cast<int>(x());
-            l=static_cast<int>(y());
-
+            start_parabolic_movement(0,jump);
+            if(choque_enemigo());
         }
     }
 }
@@ -102,6 +95,21 @@ void personaje::set_right_animation()
     pixmap_management->add_new_animation(dim,12);
 }
 
+bool personaje::choque_enemigo()
+{
+    bool is_deleted = false;
+    for(int i=0; i< enemigo.length(); i++){
+        enemies *enemy=dynamic_cast<enemies*>(enemigo.at(i));
+        if(enemy->collidesWithItem(this)){
+            emit choque(i);
+            qDebug() << "Hubo colision";
+            is_deleted = true;
+            break;
+        }
+    }
+
+    return is_deleted;
+}
 
 void personaje::set_up_animation()
 {
@@ -138,4 +146,3 @@ void personaje::set_death_animation()
 
     pixmap_management->add_new_animation(dim,7);
 }
-

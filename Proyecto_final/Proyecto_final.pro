@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     arma.cpp \
+    bombas.cpp \
+    burst.cpp \
     clase_base.cpp \
     enemies.cpp \
     escenario.cpp \
@@ -24,6 +26,8 @@ SOURCES += \
 
 HEADERS += \
     arma.h \
+    bombas.h \
+    burst.h \
     clase_base.h \
     enemies.h \
     escenario.h \
@@ -44,6 +48,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    balas.qrc \
-    nivel1.qrc \
-    obstaculo1.qrc
+    nivel1.qrc

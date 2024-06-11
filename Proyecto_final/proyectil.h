@@ -10,16 +10,23 @@
 #include "sprites.h"
 #include "enemies.h"
 #include "fisicas.h"
-class proyectil: public fisicas, public QGraphicsPixmapItem
+class proyectil: public QObject, public QGraphicsPixmapItem
 {
-    //Q_OBJECT
+    Q_OBJECT
 public:
-    proyectil(int z, int l, int h, QString ruta);
+    proyectil(QVector<QGraphicsPixmapItem*>enemy, QString ruta);
     ~proyectil();
+    float z,l,h;
+private:
+    QVector<QGraphicsPixmapItem *> enemy;
     QTimer *timer;
-    int z,l,h;
+    float direction, velocidad;
+    bool quitar_disparo();
+    bool remove_shoot();
 public slots:
     void move();
+signals:
+    bool collition(QGraphicsItem *shoot, int item);
+    bool fuera_de_rango(QGraphicsItem *shoot);
 };
-
 #endif // PROYECTIL_H

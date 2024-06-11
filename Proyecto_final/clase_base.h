@@ -9,16 +9,17 @@
 #include <QKeyEvent>
 #include <cstdlib>
 #include <ctime>
-#include <vector>
 #include <QObject>
 #include "escenario.h"
 #include "arma.h"
 #include "personaje.h"
 #include "proyectil.h"
 #include "enemies.h"
+#include "nuclearbombs.h"
 #include <QApplication>
 #include "nivel2.h"
-#include "nuclearbombs.h"
+#include <random>
+#include "bombas.h"
 class clase_base: public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
@@ -27,31 +28,31 @@ public:
     ~clase_base();
     //void get_keyEvent(QKeyEvent *event);
     void start_parabolic();
-    void move_right();
+    void set_bomberman_keys();
     void keyPressEvent(QKeyEvent *keys) override;
     void movimiento();
     void setup_enemigo();
-    void set_focus_element(QGraphicsPixmapItem *item,unsigned int scalex, unsigned int scaley);
+    void set_focus_element(QGraphicsPixmapItem *item, unsigned int scalex);
     void nivel1();
     void mapa(QString level);
-    void soldado(QString usuario);
+    void mapa2(QString level);
     void arma_level2();
-    std::vector<std::string>readFile(const std::string& fileName);
 private:
     QGraphicsView *graph;
     QGraphicsScene *scene;
+    QGraphicsScene *scene2;
     personaje *bola1;
     arma *bola2;
     escenario *plataforma;
     nivel2 *plataforma2;
-    QVector<enemies*> enemigo;
-    QVector<NuclearBombs*> nbombs;
-    QVector<arma*> bombas2;
+    QVector<QGraphicsPixmapItem*> enemigo;
+    QVector<NuclearBombs*> bombas2;
     QVector<proyectil*> bombas1;
-    QTimer *time_level1;
+    QVector<bombas*> bombas3;
+    QVector<NuclearBombs*> helicoptero;
+    QTimer *time_level1, *timer_bomba;
     unsigned int mover[5];
     QBrush set_rgb_color(int r, int g, int b, int a = 255);
-    void set_bomberman_keys();
     int leftLimit, rightLimit, topLimit, bottomLimit;
     proyectil *bala;
     void enemies_MRU();
@@ -59,10 +60,21 @@ private:
     bool limites(bool limite);
     void terminar_level();
     bool saber_nivel();
+    void leer_archivo();
+    void setup_helicoptero();
+    void fisicas_helicoptero();
 public slots:
     void disparar();
-    void level2();
     void disparar2();
+    void level2();
+    void quitar_disparo(QGraphicsItem *shoot);
+    void quitar_item(QGraphicsItem* shoot);
+    void remove_shoot(QGraphicsItem *shoot, int n);
+    void quitar_bomba(QGraphicsItem *shoot, int n);
+    void soldado(QString usuario);
+    void quitar_enemigo(int n);
+    void setup_enemigo2();
+    //void disparar2();
 
 /*signals:
     void letterPressed(QChar letter);*/
