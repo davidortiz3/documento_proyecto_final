@@ -1,10 +1,10 @@
 #include "enemies.h"
 
-enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this) {
+enemies::enemies(int z, int l, int h, float direccion,QString file): fisicas(z, l, h, this) {
     this->z = z;
     this->l = l;
     this->direccion=direccion;
-    pixmap_management = new sprites(":/nive1/personaje/volar.png", 1);
+    pixmap_management = new sprites(file, 1);
     pixmap_management->cut_character_pixmap(set_complete_sprites());
     pixmap_management->set_design_size(enemies_x_size, enemies_y_size);
 
@@ -15,9 +15,10 @@ enemies::enemies(int z, int l, int h, float direccion): fisicas(z, l, h, this) {
     setY(0);
     timer_enemi = new QTimer;
     time_move = new QTimer;
-    //connect(timer_enemi, SIGNAL(timeout()), this, SLOT(movimiento()));
+    connect(timer_enemi, SIGNAL(timeout()), this, SLOT(movimiento()));
     //connect(time_move, SIGNAL(timeout()), this, SLOT(harmonic_motion()));
-    time_move->start(16);
+    timer_enemi->start(16);
+    //time_move->start(16);
 }
 
 enemies::~enemies()
@@ -107,12 +108,15 @@ void enemies::set_death_animation()
 void enemies::iniciar_movimiento()
 {
     //start_parabolic_movement(-150,0);
-    time_move->start(16);
+    setPos(x()-150, y());
+    //time_move->start(16);
 }
 
 void enemies::movimiento()
 {
     setPixmap(pixmap_management->get_current_pixmap(0));
-    time_move->start(16);
+    //setPos(x()-150, y());
+     start_parabolic_movement(-150,-30);
+    //time_move->start(16);
 }
 

@@ -24,7 +24,7 @@ void proyectil::move()
 bool proyectil::quitar_disparo()
 {
     bool is_deleted = false;
-    if(x()>1500){
+    if(x()>2200){
         emit fuera_de_rango(this);
         is_deleted = true;
     }

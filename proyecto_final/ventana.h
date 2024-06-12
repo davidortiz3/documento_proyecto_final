@@ -22,5 +22,7 @@ public:
     void keyPressEvent(QKeyEvent *evente);
 private:
     Ui::ventana *ui;
+private slots:
+    void on_pushButton_clicked();
 };
 #endif // VENTANA_H

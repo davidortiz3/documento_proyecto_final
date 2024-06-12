@@ -11,7 +11,6 @@ CONFIG += c++17
 SOURCES += \
     arma.cpp \
     bombas.cpp \
-    burst.cpp \
     clase_base.cpp \
     enemies.cpp \
     escenario.cpp \
@@ -20,6 +19,7 @@ SOURCES += \
     nivel2.cpp \
     nuclearbombs.cpp \
     personaje.cpp \
+    plano.cpp \
     proyectil.cpp \
     sprites.cpp \
     ventana.cpp
@@ -27,7 +27,6 @@ SOURCES += \
 HEADERS += \
     arma.h \
     bombas.h \
-    burst.h \
     clase_base.h \
     enemies.h \
     escenario.h \
@@ -35,6 +34,7 @@ HEADERS += \
     nivel2.h \
     nuclearbombs.h \
     personaje.h \
+    plano.h \
     proyectil.h \
     sprites.h \
     ventana.h

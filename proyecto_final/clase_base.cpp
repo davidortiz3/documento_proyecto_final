@@ -13,7 +13,8 @@ clase_base::~clase_base()
     delete scene;
     delete bola1;
     delete plataforma;
-
+    delete scene2;
+    delete scene3;
     for(int i=0; i<enemigo.length(); i++){
         delete enemigo[i];
     }
@@ -40,6 +41,7 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
         else if(unsigned(keys->key()) == mover[1])bola1->mover(keys->key(),limites(false));
         else if(unsigned(keys->key()) == mover[2]) bola1->mover(keys->key(), true);
         else if(unsigned(keys->key()) == mover[3]) disparar();
+        else if(unsigned(keys->key()) == mover[4]);bola1->mover(keys->key(),true);
     }else{
         if(bola2->x()<1600 || bola2->y()>600){
             set_focus_element(bola2,40*2);
@@ -58,9 +60,10 @@ void clase_base::keyPressEvent(QKeyEvent *keys)
 void clase_base::setup_enemigo()
 {
 
-    enemigo.push_back(new enemies(700,330,graph->height(), -1.0));
-    enemigo.push_back(new enemies(900,200,graph->height(), -1.0));
-    enemigo.push_back(new enemies(1000,200,graph->height(), -1.0));
+    enemigo.push_back(new enemies(3000,0,graph->height(), -1.0,":/nive1/personaje/volar.png"));
+    enemigo.push_back(new enemies(1100,0,graph->height(), -1.0,":/nive1/personaje/volar.png"));
+    enemigo.push_back(new enemies(1800,0,graph->height(), -1.0,":/nive1/personaje/volar.png"));
+
     for(short i=0; i<enemigo.length(); i++) scene->addItem(enemigo[i]);
 }
 
@@ -84,24 +87,28 @@ void clase_base::set_focus_element(QGraphicsPixmapItem *item, unsigned int scale
 void clase_base::nivel1()
 {
     mapa(":/nive1/escenario/Captura de pantalla_29-5-2024_191835_.jpeg");
-    time_level1->start(1000);
+    time_level1->start(45000);
     setup_enemigo();
     soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
-    //enemies_MRU();
+    //final_nivel();
+    enemies_MRU();
 
 }
 
 void clase_base::level2()
 {
     timer_bomba=new QTimer;
+    time_fin=new QTimer;
     mapa(":/nive1/escenario/piso_nivel2.png");
     terminar_level();
     arma_level2();
-    //setup_helicoptero();
-    //fisicas_helicoptero();
+    setup_helicoptero();
+    fisicas_helicoptero();
     //soldado(":/nive1/pngfind.com-metal-slug-png-4743164.png");
     connect(timer_bomba,SIGNAL(timeout()),this,SLOT(setup_enemigo2()));
+    connect(time_fin,SIGNAL(timeout()),this,SLOT(terminar_level2()));
     timer_bomba->start(2000);
+    time_fin->start(60000);
 }
 
 void clase_base::quitar_disparo(QGraphicsItem *shoot)
@@ -141,6 +148,7 @@ void clase_base::quitar_bomba(QGraphicsItem *shoot, int n)
     //scene2->removeItem(shoot);
     scene2->removeItem(bombas2[n]);
     bombas2.remove(n);
+    puntaje+=30;
     for(int i=0; i<bombas2.length(); i++){
         if(bombas2[i] == shoot){
             disconnect(bombas2[i]);
@@ -176,7 +184,7 @@ void clase_base::soldado(const QString usuario)
     bola1->set_keys(mover);
     scene->addItem(bola1);
     set_focus_element(bola1,40*2);
-    connect(bola1,SIGNAL(choque(int)),this,SLOT(quitar_enemigo(int)));
+    //connect(bola1,SIGNAL(choque(int)),this,SLOT(quitar_enemigo(int)));
 }
 
 void clase_base::quitar_enemigo(int n)
@@ -203,11 +211,6 @@ void clase_base::set_bomberman_keys()
 
 }
 
-void clase_base::enemies_cicular()
-{
-    //enemies *enemy= dynamic_cast<enemies*>(enemigo[1]);
-    //enemy->start_zigzag_movement();
-}
 
 bool clase_base::limites(bool limite)
 {
@@ -226,6 +229,16 @@ void clase_base::terminar_level()
     //scene->clear();
     enemigo.clear();
     bombas1.clear();
+}
+
+void clase_base::terminar_level2()
+{
+    plataforma3=new escenario(0,0,":/nive1/escenario/Neo Geo NGCD - Metal Slug - Game Over Screen.png");
+    scene3 = new QGraphicsScene;
+    scene3->setSceneRect(0,0,graph->width()-2,graph->height()-2);
+    scene3->addItem(plataforma3);
+    scene->clear();
+    scene2->clear();
 }
 
 bool clase_base::saber_nivel()
@@ -304,6 +317,15 @@ void clase_base::enemies_MRU()
 {
     enemies *enemigo1=dynamic_cast<enemies*>(enemigo[1]);
     enemies *enemigo2=dynamic_cast<enemies*>(enemigo[2]);
-    //enemigo1->iniciar_movimiento();
-    //enemigo2->start_parabolic_movement(-900,0);
+    enemies *enemigo3=dynamic_cast<enemies*>(enemigo[0]);
+    /*enemigo1->start_parabolic_movement(-150,0);
+    enemigo2->start_parabolic_movement(-150,0);
+    enemigo3->start_parabolic_movement(-150,0);*/
+}
+
+void clase_base::final_nivel()
+{
+    map=new plano(100,100,graph->height(),":/nive1/personaje/mapa.png");
+    scene->addItem(map);
+    map->start_pendulum_motion(100,10);
 }

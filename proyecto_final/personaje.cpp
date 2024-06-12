@@ -80,6 +80,11 @@ void personaje::mover(unsigned int key, bool is_valid)
             start_parabolic_movement(0,jump);
             if(choque_enemigo());
         }
+    }else if(key==keys[4]){
+        setPixmap(pixmap_management->get_current_pixmap(1));
+        if(is_valid){
+            start_parabolic_movement(150,-200);
+        }
     }
 }
 

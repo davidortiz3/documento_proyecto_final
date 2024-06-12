@@ -39,6 +39,9 @@ fisicas::~fisicas()
 {
     delete p_time;
     delete default_movement;
+    delete z_time;
+    delete harmonic_time;
+    delete pendulum_time;
 }
 
 void fisicas::start_parabolic_movement(int largo, int alto)
@@ -55,7 +58,7 @@ void fisicas::start_MRU()
 {
 
     default_movement->stop();
-    set_starting_parameters(z,l,-900,0);
+    set_starting_parameters(z,l,-200,0);
     p_time->start(time_step);
 }
 
@@ -68,7 +71,7 @@ void fisicas::set_vx()
 void fisicas::right()
 {
     default_movement->stop();
-    item->setPos(item->x()+10, item->y());
+    item->setPos(item->x()-150, item->y());
 }
 
 void fisicas::set_pos_item()
@@ -218,4 +221,3 @@ void fisicas::start_pendulum_motion(float length, float initial_angle)
     n = 0;
     pendulum_time->start(time_step);
 }
-

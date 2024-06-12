@@ -14,6 +14,12 @@ NuclearBombs::NuclearBombs(int z, int l, int h, QString ruta): fisicas(z,l,h,thi
     timer->start(16);
 }
 
+NuclearBombs::~NuclearBombs()
+{
+    delete timer;
+    delete timer_boom;
+}
+
 bool NuclearBombs::limite()
 {
     bool rango=false;
