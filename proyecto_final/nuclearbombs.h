@@ -15,6 +15,7 @@ class NuclearBombs:public fisicas, public QGraphicsPixmapItem
     Q_OBJECT
 public:
     NuclearBombs(int z, int l, int h, QString ruta);
+    ~NuclearBombs();
     QTimer *timer;
     QTimer *timer_boom;
     int z,l,h;

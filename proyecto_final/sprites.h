@@ -13,7 +13,7 @@ public:
     void cut_character_pixmap(QRect size);
     void add_new_animation(QRect size, unsigned int number);
     QPixmap get_current_pixmap(unsigned int animation);
-
+    ~sprites();
 private:
     QPixmap *main_pixmap, *character_pixmap;
     QVector<QRect> animations;

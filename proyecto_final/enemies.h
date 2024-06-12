@@ -15,7 +15,7 @@
 class enemies :public fisicas, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-    enemies(int z, int l, int h, float direccion);
+    enemies(int z, int l, int h, float direccion, QString file);
     ~enemies();
     //void move();
     QRect set_complete_sprites();

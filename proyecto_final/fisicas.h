@@ -35,7 +35,7 @@ private:
     QTimer *z_time;
     QTimer *harmonic_time;
     QTimer *pendulum_time;
-    double g1=200*9.8, theta0=0.0, A=200.0;
+    double theta0=0.0, A=200.0;
     int h;
     void mover();
     int zigzag_counter;
